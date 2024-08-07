@@ -15,8 +15,8 @@ const fetchContract = (signerOrProvider) =>
 
 export const CryptoPredictionContext = React.createContext();
 
-export const CryptoPredictionProvider = ({ children }) => {
-  const titleData = "Crypto Prediction Contract";
+export const InvestRightProvider = ({ children }) => {
+  const titleData = "Invest Right Contract";
   const [currentAccount, setCurrentAccount] = useState("");
 
   const getAddress = async () => {
