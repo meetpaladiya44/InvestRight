@@ -9,6 +9,17 @@ export const CryptoPredictionABI = CryptoPrediction.abi;
 
 //NETWORK
 const networks = {
+  sepolia: {
+    chainId: `0x${Number(11155111).toString(16)}`,
+    chainName: "Sepolia",
+    nativeCurrency: {
+      name: "ETH",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://rpc.sepolia.org"],
+    blockExplorerUrls: ["https://sepolia.etherscan.io/"],
+  },
   polygon_amoy: {
     chainId: `0x${Number(80002).toString(16)}`,
     chainName: "Polygon Amoy",
@@ -105,6 +116,30 @@ const changeNetwork = async ({ networkName }) => {
 };
 
 export const handleNetworkSwitch = async () => {
-  const networkName = "polygon_amoy";
-  await changeNetwork({ networkName });
+  try {
+    if (!window.ethereum) throw new Error("No crypto wallet found");
+
+    const currentChainId = await window.ethereum.request({ method: "eth_chainId" });
+    const targetChainId = networks.sepolia.chainId;
+
+    if (currentChainId !== targetChainId) {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: targetChainId }],
+      });
+    }
+  } catch (err) {
+    if (err.code === 4902) {
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            ...networks.sepolia,
+          },
+        ],
+      });
+    } else {
+      console.log(err.message);
+    }
+  }
 };

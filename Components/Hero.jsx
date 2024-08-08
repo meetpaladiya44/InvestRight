@@ -1,9 +1,33 @@
-import React, { useState } from "react";
-import { useRouter } from  "next-nprogress-bar";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next-nprogress-bar";
+import { IDKitWidget, ISuccessResult } from "@worldcoin/idkit";
+import {
+  useAccount,
+  useWriteContract,
+  useWaitForTransactionReceipt,
+} from "wagmi";
 
 const Hero = ({ titleData, createPrediction }) => {
+  const account = useAccount();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
+  const [done, setDone] = useState(false);
+  const {
+    data: hash,
+    isPending,
+    error,
+    writeContractAsync,
+  } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
+
+  const submitTx = async (proof) => {
+    // Implement your transaction logic here
+    setDone(true);
+    setIsLoggedIn(true);
+  };
 
   const [prediction, setPrediction] = useState({
     title: "",
@@ -12,9 +36,29 @@ const Hero = ({ titleData, createPrediction }) => {
     deadline: "",
   });
 
-  const handleWorldIDLogin = () => {
-    router.push('/login');
-  }
+  const handleVerify = async (proof) => {
+    try {
+      const res = await fetch("/api/verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(proof),
+      });
+  
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error("Verification failed:", errorData);
+        throw new Error(`Verification failed: ${errorData.message}`);
+      }
+  
+      // Verification successful
+      console.log("Verification successful!");
+    } catch (error) {
+      console.error("Error during verification:", error);
+      throw error; // Rethrow the error for the IDKitWidget to handle
+    }
+  };
 
   return (
     <div className="relative">
@@ -42,7 +86,9 @@ const Hero = ({ titleData, createPrediction }) => {
                 Predict the price of different crypto currencies
               </h3>
               <p className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg">
-              Predict cryptocurrency prices and share your insights in interactive frames. Users can also attest to predictions with positive, negative, or not useful votes.
+                Predict cryptocurrency prices and share your insights in
+                interactive frames. Users can also attest to predictions with
+                positive, negative, or not useful votes.
               </p>
             </div>
             <div className="w-full max-w-xl xl:w-5/12">
@@ -214,13 +260,36 @@ const Hero = ({ titleData, createPrediction }) => {
                         Make Prediction
                       </button>
                     ) : (
-                      <button
-                        onClick={handleWorldIDLogin}
-                        type="submit"
-                        className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                      <IDKitWidget
+                        app_id={process.env.NEXT_PUBLIC_APP_ID}
+                        action={process.env.NEXT_PUBLIC_ACTION}
+                        signal={account.address}
+                        onSuccess={submitTx}
+                        handleVerify={handleVerify}
+                        autoClose
                       >
-                        <span>Login With WorldID</span>
-                      </button>
+                        {({ open }) => (
+                          <button
+                            onClick={() => !done && open()}
+                            className={`w-full py-4 px-6 rounded-full text-white font-semibold text-lg transition-all ${
+                              !hash && !isPending
+                                ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
+                                : isPending
+                                ? "bg-yellow-500 hover:bg-yellow-600"
+                                : "bg-green-500 hover:bg-green-600"
+                            } ${
+                              done ? "opacity-50 cursor-not-allowed" : ""
+                            } transform hover:scale-105`}
+                            disabled={done}
+                          >
+                            {!hash &&
+                              (isPending
+                                ? "Pending, please check your wallet..."
+                                : "Login with WorldID")}
+                            {done && "Transaction Completed"}
+                          </button>
+                        )}
+                      </IDKitWidget>
                     )}
                   </div>
                   <p className="text-xs text-gray-600 sm:text-sm">
