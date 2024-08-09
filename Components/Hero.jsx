@@ -5,23 +5,30 @@ import {
   useAccount,
   useWriteContract,
   useWaitForTransactionReceipt,
+  useContractWrite,
 } from "wagmi";
+import InvestRightABI from "../Context/InvestRightABI.json";
+import { ethers } from "ethers";
 
 const Hero = ({ titleData, createPrediction }) => {
-  const account = useAccount();
+  const { address: userAddress } = useAccount();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
   const [done, setDone] = useState(false);
-  const {
-    data: hash,
-    isPending,
-    error,
-    writeContractAsync,
-  } = useWriteContract();
-  const { isLoading: isConfirming, isSuccess: isConfirmed } =
-    useWaitForTransactionReceipt({
-      hash,
-    });
+  // const {
+  //   data: hash,
+  //   isPending,
+  //   error,
+  //   writeContractAsync,
+  // } = useWriteContract({
+  //   address: "0xD6f3d80FD0952C8Fd0764D7011d7475DF555cA42",
+  //   abi: InvestRightABI,
+  //   functionName: "createPrediction",
+  // });
+  // const { isLoading: isConfirming, isSuccess: isConfirmed } =
+  //   useWaitForTransactionReceipt({
+  //     hash,
+  //   });
 
   const submitTx = async (proof) => {
     // Implement your transaction logic here
@@ -30,10 +37,16 @@ const Hero = ({ titleData, createPrediction }) => {
   };
 
   const [prediction, setPrediction] = useState({
-    title: "",
-    description: "",
-    amount: "",
-    deadline: "",
+    predictionId: "2",
+    coin: "",
+    reasoning: "",
+    currentPrice: "",
+    predictionPrice: "",
+    stakeAmount: "",
+    viewAmount: "",
+    targetDate: "",
+    pythPriceId:
+      "0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace",
   });
 
   const handleVerify = async (proof) => {
@@ -45,18 +58,55 @@ const Hero = ({ titleData, createPrediction }) => {
         },
         body: JSON.stringify(proof),
       });
-  
+
       if (!res.ok) {
         const errorData = await res.json();
         console.error("Verification failed:", errorData);
         throw new Error(`Verification failed: ${errorData.message}`);
       }
-  
+
       // Verification successful
       console.log("Verification successful!");
     } catch (error) {
       console.error("Error during verification:", error);
       throw error; // Rethrow the error for the IDKitWidget to handle
+    }
+  };
+
+  console.log(prediction);
+
+  const handleCreatePrediction = async (e) => {
+    e.preventDefault();
+
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+
+      const contract = new ethers.Contract(
+        "0xD6f3d80FD0952C8Fd0764D7011d7475DF555cA42", // Replace with your contract address
+        InvestRightABI,
+        signer
+      );
+
+      const stakeAmount = ethers.utils.parseEther(prediction.stakeAmount);
+      const viewAmount = ethers.utils.parseEther(prediction.viewAmount);
+
+      const tx = await contract.createPrediction(
+        prediction.predictionId.toString(),
+        prediction.coin,
+        prediction.reasoning,
+        prediction.predictionPrice.toString(),
+        viewAmount.toString(),
+        prediction.targetDate.toString(),
+        prediction.pythPriceId,
+        { value: stakeAmount }
+      );
+
+      await tx.wait();
+      console.log("Prediction created successfully!");
+    } catch (error) {
+      console.log("Error creating prediction:", error);
     }
   };
 
@@ -108,7 +158,7 @@ const Hero = ({ titleData, createPrediction }) => {
                       onChange={(e) =>
                         setPrediction({
                           ...prediction,
-                          title: e.target.value,
+                          coin: e.target.value,
                         })
                       }
                       placeholder="coin"
@@ -130,10 +180,10 @@ const Hero = ({ titleData, createPrediction }) => {
                       onChange={(e) =>
                         setPrediction({
                           ...prediction,
-                          description: e.target.value,
+                          reasoning: e.target.value,
                         })
                       }
-                      placeholder="description"
+                      placeholder="reasoning"
                       required
                       type="text"
                       className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
@@ -152,10 +202,10 @@ const Hero = ({ titleData, createPrediction }) => {
                       onChange={(e) =>
                         setPrediction({
                           ...prediction,
-                          amount: e.target.value,
+                          currentPrice: e.target.value,
                         })
                       }
-                      placeholder="amount"
+                      placeholder="current price"
                       required
                       type="text"
                       className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
@@ -174,7 +224,7 @@ const Hero = ({ titleData, createPrediction }) => {
                       onChange={(e) =>
                         setPrediction({
                           ...prediction,
-                          amount: e.target.value,
+                          predictionPrice: e.target.value,
                         })
                       }
                       placeholder="target price"
@@ -196,7 +246,7 @@ const Hero = ({ titleData, createPrediction }) => {
                       onChange={(e) =>
                         setPrediction({
                           ...prediction,
-                          amount: e.target.value,
+                          stakeAmount: e.target.value,
                         })
                       }
                       placeholder="stake amount"
@@ -218,7 +268,7 @@ const Hero = ({ titleData, createPrediction }) => {
                       onChange={(e) =>
                         setPrediction({
                           ...prediction,
-                          amount: e.target.value,
+                          viewAmount: e.target.value,
                         })
                       }
                       placeholder="view amount"
@@ -237,12 +287,14 @@ const Hero = ({ titleData, createPrediction }) => {
                       Deadline
                     </label>
                     <input
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const targetDate =
+                          new Date(e.target.value).getTime() / 1000; // Convert to epoch
                         setPrediction({
                           ...prediction,
-                          deadline: e.target.value,
-                        })
-                      }
+                          targetDate: targetDate,
+                        });
+                      }}
                       placeholder="target date"
                       required
                       type="date"
@@ -252,10 +304,11 @@ const Hero = ({ titleData, createPrediction }) => {
                     />
                   </div>
                   <div className="mt-4 mb-2 sm:mb-4">
-                    {isLoggedIn ? (
+                    {/* {isLoggedIn ? (
                       <button
                         type="submit"
                         className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                        onClick={(e) => handleCreatePrediction(e)}
                       >
                         Make Prediction
                       </button>
@@ -265,7 +318,7 @@ const Hero = ({ titleData, createPrediction }) => {
                         action={process.env.NEXT_PUBLIC_ACTION}
                         signal={account.address}
                         onSuccess={submitTx}
-                        handleVerify={handleVerify}
+                        // handleVerify={handleVerify}
                         autoClose
                       >
                         {({ open }) => (
@@ -290,7 +343,14 @@ const Hero = ({ titleData, createPrediction }) => {
                           </button>
                         )}
                       </IDKitWidget>
-                    )}
+                    )} */}
+                    <button
+                      type="submit"
+                      className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                      onClick={(e) => handleCreatePrediction(e)}
+                    >
+                      Make Prediction
+                    </button>
                   </div>
                   <p className="text-xs text-gray-600 sm:text-sm">
                     Create your prediction on any crypto currency you want

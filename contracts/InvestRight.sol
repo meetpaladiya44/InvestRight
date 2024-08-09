@@ -54,16 +54,17 @@ contract InvestRight {
     }
 
     function createPrediction(
+        uint256 predictionId,
         string memory _coin,
         string memory _reasoning,
         uint256 _targetPrice,
         uint256 _viewAmount,
         uint256 _targetDate,
         bytes32 _pythPriceId
-    ) public payable returns (uint256) {
+    ) public payable {
         require(msg.value > 0, "Stake amount must be greater than 0");
+        require(predictions[predictionId].owner == address(0), "Prediction ID already in use");
 
-        uint256 predictionId = numberOfPredictions++;
         Prediction storage prediction = predictions[predictionId];
 
         prediction.owner = msg.sender;
@@ -82,7 +83,7 @@ contract InvestRight {
         emit PredictionCreated(predictionId, msg.sender, _coin, msg.value);
         emit StakeAdded(predictionId, msg.sender, true, msg.value);
 
-        return predictionId;
+        numberOfPredictions++;
     }
 
     function getCurrentPrice(bytes32 priceId) public view returns (uint256) {
@@ -161,10 +162,12 @@ contract InvestRight {
     }
 
     function addPositiveStake(uint256 _id) public payable {
-        require(_id < numberOfPredictions, "Invalid prediction ID");
+        require(predictions[_id].owner != address(0), "Invalid prediction ID");
         require(msg.value > 0, "Stake amount must be greater than 0");
-
         Prediction storage prediction = predictions[_id];
+        if(msg.sender == prediction.owner){
+            prediction.stakeAmount += msg.value;
+        }
         prediction.totalPositiveStake += msg.value;
         positiveStakes[_id][msg.sender] += msg.value;
 
@@ -172,7 +175,7 @@ contract InvestRight {
     }
 
     function addNegativeStake(uint256 _id) public payable {
-        require(_id < numberOfPredictions, "Invalid prediction ID");
+        require(predictions[_id].owner != address(0), "Invalid prediction ID");
         require(msg.value > 0, "Stake amount must be greater than 0");
 
         Prediction storage prediction = predictions[_id];
@@ -183,13 +186,15 @@ contract InvestRight {
     }
 
     function viewerFees(uint256 _id) public payable {
-        require(_id < numberOfPredictions, "Invalid prediction ID");
+        require(predictions[_id].owner != address(0), "Invalid prediction ID");
 
         Prediction storage prediction = predictions[_id];
 
-        if (msg.sender == prediction.owner) {
-            return;
-        }
+        // Revert if the caller is the owner
+        require(
+            msg.sender != prediction.owner,
+            "Owner cannot view their own post"
+        );
 
         uint256 amount = prediction.viewAmount;
         require(msg.value == amount, "Incorrect ETH amount to view post");
@@ -205,30 +210,34 @@ contract InvestRight {
             numberOfPredictions
         );
 
+        uint256 index = 0;
         for (uint256 i = 0; i < numberOfPredictions; i++) {
-            allPredictions[i] = predictions[i];
+            if (predictions[i].owner != address(0)) {
+                allPredictions[index] = predictions[i];
+                index++;
+            }
         }
 
         return allPredictions;
     }
 
     function getTotalFeesCollected(uint256 _id) public view returns (uint256) {
-        require(_id < numberOfPredictions, "Invalid prediction ID");
+        require(predictions[_id].owner != address(0), "Invalid prediction ID");
         return predictions[_id].totalFeesCollected;
     }
 
     function getTotalPositiveStake(uint256 _id) public view returns (uint256) {
-        require(_id < numberOfPredictions, "Invalid prediction ID");
+        require(predictions[_id].owner != address(0), "Invalid prediction ID");
         return predictions[_id].totalPositiveStake;
     }
 
     function getTotalNegativeStake(uint256 _id) public view returns (uint256) {
-        require(_id < numberOfPredictions, "Invalid prediction ID");
+        require(predictions[_id].owner != address(0), "Invalid prediction ID");
         return predictions[_id].totalNegativeStake;
     }
 
     function getTotalStake(uint256 _id) public view returns (uint256) {
-        require(_id < numberOfPredictions, "Invalid prediction ID");
+        require(predictions[_id].owner != address(0), "Invalid prediction ID");
         Prediction storage prediction = predictions[_id];
         return
             prediction.totalFeesCollected +
@@ -237,9 +246,12 @@ contract InvestRight {
     }
 
     function rewardDistribution(uint256 _id) public {
-        require(_id < numberOfPredictions, "Invalid prediction ID");
+        require(predictions[_id].owner != address(0), "Invalid prediction ID");
         Prediction storage prediction = predictions[_id];
-        require(block.timestamp >= prediction.targetDate, "Prediction period not over");
+        require(
+            block.timestamp >= prediction.targetDate,
+            "Prediction period not over"
+        );
         require(!prediction.isDistributed, "Rewards already distributed");
 
         uint256 currentPrice = getCurrentPrice(prediction.pythPriceId);
@@ -256,14 +268,16 @@ contract InvestRight {
 
         if (predictionCorrect) {
             // Distribute to prediction owner and positive stakers
-            uint256 ownerReward = (prediction.stakeAmount * totalStake) / prediction.totalPositiveStake;
+            uint256 ownerReward = (prediction.stakeAmount * totalStake) /
+                prediction.totalPositiveStake;
             payable(prediction.owner).transfer(ownerReward);
 
             for (uint256 i = 0; i < numberOfPredictions; i++) {
                 address staker = address(uint160(i)); // This is a simplification. In reality, you'd need to keep track of all stakers.
                 uint256 stake = positiveStakes[_id][staker];
                 if (stake > 0) {
-                    uint256 reward = (stake * totalStake) / prediction.totalPositiveStake;
+                    uint256 reward = (stake * totalStake) /
+                        prediction.totalPositiveStake;
                     payable(staker).transfer(reward);
                 }
             }
@@ -273,7 +287,8 @@ contract InvestRight {
                 address staker = address(uint160(i)); // This is a simplification. In reality, you'd need to keep track of all stakers.
                 uint256 stake = negativeStakes[_id][staker];
                 if (stake > 0) {
-                    uint256 reward = (stake * totalStake) / prediction.totalNegativeStake;
+                    uint256 reward = (stake * totalStake) /
+                        prediction.totalNegativeStake;
                     payable(staker).transfer(reward);
                 }
             }

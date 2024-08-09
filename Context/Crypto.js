@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
-import CryptoPrediction from "./CryptoPrediction.json";
+import CryptoPrediction from "./InvestRight.json";
 
 //------------POLYGON AMOY NETWORK
 export const CryptoPredictionAddress = "";

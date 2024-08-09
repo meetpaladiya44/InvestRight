@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 
-import { CryptoPredictionContext } from "../Context/CryptoPredictor.js";
+import { CryptoPredictionContext } from "../Context/InvestRight.js";
 import { Logo, Menu } from "../Components/index";
 import styles from "../css/BtnShine.module.css";
 import Image from "next/image";
