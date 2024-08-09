@@ -102,7 +102,7 @@ const Hero = ({ titleData, createPrediction }) => {
       const signer = provider.getSigner();
 
       const contract = new ethers.Contract(
-        "0x103f7241Db2550F750d5221D40eF4f88926b7DAd", // Replace with your contract address
+        "0x384d7cE3FcD8502234446d9F080A97Af432382FC", // Replace with your contract address
         InvestRightABI,
         signer
       );

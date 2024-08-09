@@ -2,8 +2,9 @@ require("@nomicfoundation/hardhat-toolbox");
 
 /** @type import('hardhat/config').HardhatUserConfig */
 
-const NEXT_PUBLIC_MODE_RPC = "https://sepolia.mode.network/";
-const NEXT_PUBLIC_PRIVATE_KEY = process.env.NEXT_PUBLIC_PRIVATE_KEY
+const NEXT_PUBLIC_SEPOLIA_RPC = "https://rpc.sepolia.org";
+const NEXT_PUBLIC_PRIVATE_KEY = process.env.NEXT_PUBLIC_PRIVATE_KEY;
+
 module.exports = {
   solidity: {
     compilers: [
@@ -18,12 +19,12 @@ module.exports = {
       },
     ]
   },
-  defaultNetwork: "mode",
+  defaultNetwork: "sepolia",
   networks: {
     hardhat: {},
-    mode: {
-      url: NEXT_PUBLIC_MODE_RPC,
-      accounts: [`0x${NEXT_PUBLIC_PRIVATE_KEY}`],
+    sepolia: {
+      url: NEXT_PUBLIC_SEPOLIA_RPC,
+      accounts: NEXT_PUBLIC_PRIVATE_KEY,
       gas: 12000000,
       gasPrice: 25000000000 // 25 gwei
     },

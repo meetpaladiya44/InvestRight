@@ -2,23 +2,23 @@ import { ethers } from "ethers";
 import Web3Modal from "web3modal";
 import InvestRight from "./InvestRight.json";
 
-//------------MODE NETWORK
-export const InvestRightAddress = "0x103f7241Db2550F750d5221D40eF4f88926b7DAd";
+//------------SEPOLIA NETWORK
+export const InvestRightAddress = "0x384d7cE3FcD8502234446d9F080A97Af432382FC";
 
 export const InvestRightABI = InvestRight.abi;
 
 //NETWORK
 const networks = {
-  mode_testnet: {
-    chainId: `0x${Number(919).toString(16)}`,
-    chainName: "Mode Testnet",
+  sepolia_testnet: {
+    chainId: `0x${Number(11155111).toString(16)}`,
+    chainName: "Sepolia Testnet",
     nativeCurrency: {
-      name: "ETH",
-      symbol: "ETH",
+      name: "Sepolia ETH",
+      symbol: "SETH",
       decimals: 18,
     },
-    rpcUrls: ["https://sepolia.mode.network/"],
-    blockExplorerUrls: ["https://sepolia.explorer.mode.network/"],
+    rpcUrls: process.env.RPC_URL,
+    blockExplorerUrls: ["https://sepolia.etherscan.io/"],
   },
   localhost: {
     chainId: `0x${Number(31337).toString(16)}`,
