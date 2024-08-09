@@ -3,7 +3,7 @@ import Web3Modal from "web3modal";
 import InvestRight from "./InvestRight.json";
 
 //------------MODE NETWORK
-export const InvestRightAddress = "0xD6f3d80FD0952C8Fd0764D7011d7475DF555cA42";
+export const InvestRightAddress = "0x103f7241Db2550F750d5221D40eF4f88926b7DAd";
 
 export const InvestRightABI = InvestRight.abi;
 
