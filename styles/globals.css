@@ -5,13 +5,16 @@
 .background {
   background-color: #644df6;
 }
-
+.logo {
+  color: #644df6;
+}
 .backgroundMain {
   background-color: #1a1a1a;
 }
 
 .newColor {
-  color: #1a1a1a;
+  background-color: #644df6;
+  color: white;
 }
 
 .coverLine {

@@ -146,22 +146,44 @@ const Hero = ({ titleData, createPrediction }) => {
             d="M-164 13L-104 39.7C-44 66 76 120 196 141C316 162 436 152 556 119.7C676 88 796 34 916 13C1036 -8 1156 2 1216 7.7L1276 13V162.5H1216C1156 162.5 1036 162.5 916 162.5C796 162.5 676 162.5 556 162.5C436 162.5 316 162.5 196 162.5C76 162.5 -44 162.5 -104 162.5H-164V13Z"
           />
         </svg>
-        <div className="relative px-4 py-16 mx-auto overflow-hidden sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-10 lg:py-20">
+        <div className="relative px-7 py-16 mx-auto overflow-hidden sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-10 lg:py-20">
           <div className="flex flex-col items-center justify-center xl:flex-row">
-            <div className="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
-              <h3 className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none">
-                Invest Right: <br className="hidden md:block" />
-                Predict the price of different crypto currencies
+            <div
+              className="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12"
+              style={{
+                paddingBottom: "20%",
+                maxWidth: "42rem",
+                paddingRight: "12em",
+              }}
+            >
+              <h3
+                className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none"
+                style={{ fontWeight: "700" }}
+              >
+                Invest Right :
               </h3>
+              <h2
+                className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg"
+                style={{
+                  fontSize: "2rem",
+                  lineHeight: "37px",
+                  fontWeight: "700",
+                }}
+              >
+                Predict the price of different crypto currencies
+              </h2>
               <p className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg">
                 Predict cryptocurrency prices and share your insights in
                 interactive frames. Users can also attest to predictions with
                 positive, negative, or not useful votes.
               </p>
             </div>
-            <div className="w-full max-w-xl xl:w-5/12">
+            <div className="w-full  xl:w-5/12" style={{ maxWidth: "42rem" }}>
               <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
-                <h3 className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl">
+                <h3
+                  className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl"
+                  style={{ color: "#644df6", fontWeight: "700" }}
+                >
                   Predict
                 </h3>
                 <form>
@@ -172,7 +194,27 @@ const Hero = ({ titleData, createPrediction }) => {
                     >
                       Coin
                     </label>
-                    <input
+                    <select
+                      onChange={(e) =>
+                        setPrediction({
+                          ...prediction,
+                          coinname: e.target.value,
+                        })
+                      }
+                      value={prediction.coinname}
+                      required
+                      className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                      id="coinname"
+                      name="coinname"
+                    >
+                      <option value="">Select Coin</option>
+                      {pythPriceIdOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                    {/* <input
                       onChange={(e) =>
                         setPrediction({
                           ...prediction,
@@ -185,7 +227,7 @@ const Hero = ({ titleData, createPrediction }) => {
                       className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                       id="coin"
                       name="coin"
-                    />
+                    /> */}
                   </div>
                   <div className="mb-1 sm:mb-2">
                     <label
@@ -396,7 +438,7 @@ const Hero = ({ titleData, createPrediction }) => {
                     )} */}
                     <button
                       type="submit"
-                      className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                      className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none  transition duration-200 rounded shadow-md newColor"
                       onClick={(e) => handleCreatePrediction(e)}
                     >
                       Make Prediction

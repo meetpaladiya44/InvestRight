@@ -103,7 +103,8 @@ export const InvestRightProvider = ({ children }) => {
         const allPredictions = await contract.getStakes();
 
         const filteredPredictions = allPredictions.filter(
-          (prediction) => prediction.owner.toLowerCase() === address.toLowerCase()
+          (prediction) =>
+            prediction.owner.toLowerCase() === address.toLowerCase()
         );
 
         const userData = filteredPredictions.map((prediction, i) => ({
@@ -228,6 +229,10 @@ export const InvestRightProvider = ({ children }) => {
     }
   };
 
+  const disconnectWallet = () => {
+    setCurrentAccount(null);
+    setProvider(null);
+  };
   return (
     <CryptoPredictionContext.Provider
       value={{
@@ -235,6 +240,7 @@ export const InvestRightProvider = ({ children }) => {
         currentAccount,
         createPrediction,
         getStakes,
+        disconnectWallet,
         getUserPredictions,
         stake,
         getStakes,
