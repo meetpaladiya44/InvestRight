@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import { useRouter } from  "next-nprogress-bar";
+import { useRouter } from "next-nprogress-bar";
 
 const Hero = ({ titleData, createPrediction }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
   const [prediction, setPrediction] = useState({
-    title: "",
-    description: "",
-    amount: "",
-    deadline: "",
+    coin: "",
+    viewPrice: "",
   });
 
   const handleWorldIDLogin = () => {
-    router.push('/login');
-  }
+    router.push("/login");
+  };
 
   return (
     <div className="relative">
@@ -42,7 +40,9 @@ const Hero = ({ titleData, createPrediction }) => {
                 Predict the price of different crypto currencies
               </h3>
               <p className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg">
-              Predict cryptocurrency prices and share your insights in interactive frames. Users can also attest to predictions with positive, negative, or not useful votes.
+                Predict cryptocurrency prices and share your insights in
+                interactive frames. Users can also attest to predictions with
+                positive, negative, or not useful votes.
               </p>
             </div>
             <div className="w-full max-w-xl xl:w-5/12">
@@ -53,7 +53,7 @@ const Hero = ({ titleData, createPrediction }) => {
                 <form>
                   <div className="mb-1 sm:mb-2">
                     <label
-                      htmlFor="firstName"
+                      htmlFor="coin"
                       className="inline-block mb-1 font-medium"
                     >
                       Coin
@@ -69,13 +69,13 @@ const Hero = ({ titleData, createPrediction }) => {
                       required
                       type="text"
                       className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="firstName"
-                      name="firstName"
+                      id="coin"
+                      name="coin"
                     />
                   </div>
                   <div className="mb-1 sm:mb-2">
                     <label
-                      htmlFor="lastName"
+                      htmlFor="reason"
                       className="inline-block mb-1 font-medium"
                     >
                       Reason
@@ -91,13 +91,13 @@ const Hero = ({ titleData, createPrediction }) => {
                       required
                       type="text"
                       className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="lastName"
-                      name="lastName"
+                      id="reason"
+                      name="reason"
                     />
                   </div>
                   <div className="mb-1 sm:mb-2">
                     <label
-                      htmlFor="email"
+                      htmlFor="currentPrice"
                       className="inline-block mb-1 font-medium"
                     >
                       Current Price
@@ -113,13 +113,13 @@ const Hero = ({ titleData, createPrediction }) => {
                       required
                       type="text"
                       className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="email"
-                      name="email"
+                      id="currentPrice"
+                      name="currentPrice"
                     />
                   </div>
                   <div className="mb-1 sm:mb-2">
                     <label
-                      htmlFor="email"
+                      htmlFor="predictionPrice"
                       className="inline-block mb-1 font-medium"
                     >
                       Prediction Price
@@ -135,13 +135,13 @@ const Hero = ({ titleData, createPrediction }) => {
                       required
                       type="text"
                       className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="email"
-                      name="email"
+                      id="predictionPrice"
+                      name="predictionPrice"
                     />
                   </div>
                   <div className="mb-1 sm:mb-2">
                     <label
-                      htmlFor="email"
+                      htmlFor="stakeAmount"
                       className="inline-block mb-1 font-medium"
                     >
                       Stake Amount
@@ -157,13 +157,13 @@ const Hero = ({ titleData, createPrediction }) => {
                       required
                       type="text"
                       className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="email"
-                      name="email"
+                      id="stakeAmount"
+                      name="stakeAmount"
                     />
                   </div>
                   <div className="mb-1 sm:mb-2">
                     <label
-                      htmlFor="email"
+                      htmlFor="viewPrice"
                       className="inline-block mb-1 font-medium"
                     >
                       View Price
@@ -179,13 +179,13 @@ const Hero = ({ titleData, createPrediction }) => {
                       required
                       type="text"
                       className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="email"
-                      name="email"
+                      id="viewPrice"
+                      name="viewPrice"
                     />
                   </div>
                   <div className="mb-1 sm:mb-2">
                     <label
-                      htmlFor="email"
+                      htmlFor="deadline"
                       className="inline-block mb-1 font-medium"
                     >
                       Deadline
@@ -201,8 +201,8 @@ const Hero = ({ titleData, createPrediction }) => {
                       required
                       type="date"
                       className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="email"
-                      name="email"
+                      id="deadline"
+                      name="deadline"
                     />
                   </div>
                   <div className="mt-4 mb-2 sm:mb-4">
