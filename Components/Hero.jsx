@@ -139,41 +139,29 @@ const Hero = ({ titleData, createPrediction }) => {
 
   return (
     <div className="relative">
-      <span className=""></span>
-      {/* <img
-        src="https://img.freepik.com/free-vector/gradient-stock-market-concept-with-statistics_23-2149157696.jpg?semt=ais_hybrid"
-        className="absolute inset-0 object-cover w-full h-full"
-        alt=""
-      /> */}
-      <div className="relative bg-[#644DF6]">
-        <svg
-          className="absolute inset-x-0 bottom-0 text-white"
-          viewBox="0 0 1160 163"
-        >
-          <path
-            fill="currentColor"
-            d="M-164 13L-104 39.7C-44 66 76 120 196 141C316 162 436 152 556 119.7C676 88 796 34 916 13C1036 -8 1156 2 1216 7.7L1276 13V162.5H1216C1156 162.5 1036 162.5 916 162.5C796 162.5 676 162.5 556 162.5C436 162.5 316 162.5 196 162.5C76 162.5 -44 162.5 -104 162.5H-164V13Z"
-          />
-        </svg>
-        <div className="relative px-7 py-16 mx-auto overflow-hidden sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-10 lg:py-20">
-          <div className="flex flex-col items-center justify-center xl:flex-row">
-            <div
-              className="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12"
-              style={{
-                paddingBottom: "20%",
-                maxWidth: "42rem",
-                paddingRight: "12em",
-              }}
-            >
-              <h3
-                className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none"
-                style={{ fontWeight: "700" }}
-              >
-                Invest Right :
-              </h3>
-              <h2
-                className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg"
-                style={{
+    <span className=""></span>
+    {/* <img
+      src="https://img.freepik.com/free-vector/gradient-stock-market-concept-with-statistics_23-2149157696.jpg?semt=ais_hybrid"
+      className="absolute inset-0 object-cover w-full h-full"
+      alt=""
+    /> */}
+    <div className="relative bg-[#644DF6]">
+      <svg
+        className="absolute inset-x-0 bottom-0 text-white"
+        viewBox="0 0 1160 163"
+      >
+        <path
+          fill="currentColor"
+          d="M-164 13L-104 39.7C-44 66 76 120 196 141C316 162 436 152 556 119.7C676 88 796 34 916 13C1036 -8 1156 2 1216 7.7L1276 13V162.5H1216C1156 162.5 1036 162.5 916 162.5C796 162.5 676 162.5 556 162.5C436 162.5 316 162.5 196 162.5C76 162.5 -44 162.5 -104 162.5H-164V13Z"
+        />
+      </svg>
+      <div className="relative px-4 py-16 mx-auto overflow-hidden sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-10 lg:py-20">
+        <div className="flex flex-col items-center justify-center xl:flex-row">
+          <div className="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
+            <h3 className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none"  style={{ fontWeight: "700" }}>
+              Invest Right : <br className="hidden md:block" />
+            </h3>
+            <h2   className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg" style={{
                   fontSize: "2rem",
                   lineHeight: "37px",
                   fontWeight: "700",
