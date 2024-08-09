@@ -12,23 +12,25 @@ import { ethers } from "ethers";
 
 const Hero = ({ titleData, createPrediction }) => {
   const { address: userAddress } = useAccount();
+  const account = useAccount();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
   const [done, setDone] = useState(false);
-  // const {
-  //   data: hash,
-  //   isPending,
-  //   error,
-  //   writeContractAsync,
-  // } = useWriteContract({
-  //   address: "0xD6f3d80FD0952C8Fd0764D7011d7475DF555cA42",
-  //   abi: InvestRightABI,
-  //   functionName: "createPrediction",
-  // });
-  // const { isLoading: isConfirming, isSuccess: isConfirmed } =
-  //   useWaitForTransactionReceipt({
-  //     hash,
-  //   });
+  const [predictionIdCounter, setPredictionIdCounter] = useState(0);
+  const {
+    data: hash,
+    isPending,
+    error,
+    writeContractAsync,
+  } = useWriteContract({
+    address: "0xD6f3d80FD0952C8Fd0764D7011d7475DF555cA42",
+    abi: InvestRightABI,
+    functionName: "createPrediction",
+  });
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
 
   const submitTx = async (proof) => {
     // Implement your transaction logic here
@@ -37,10 +39,11 @@ const Hero = ({ titleData, createPrediction }) => {
   };
 
   const [prediction, setPrediction] = useState({
-    predictionId: "2",
+    predictionId: ethers.BigNumber.from(
+      ethers.utils.randomBytes(32)
+    ).toString(),
     coin: "",
     reasoning: "",
-    // currentPrice: "",
     predictionPrice: "",
     stakeAmount: "",
     viewAmount: "",
@@ -123,6 +126,12 @@ const Hero = ({ titleData, createPrediction }) => {
 
       await tx.wait();
       console.log("Prediction created successfully!");
+
+      setPredictionIdCounter((prevCounter) => prevCounter + 1);
+      setPrediction({
+        ...prediction,
+        predictionId: predictionIdCounter + 1,
+      });
     } catch (error) {
       console.log("Error creating prediction:", error);
     }
@@ -195,13 +204,17 @@ const Hero = ({ titleData, createPrediction }) => {
                       Coin
                     </label>
                     <select
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const selectedCoin = pythPriceIdOptions.find(
+                          (option) => option.value === e.target.value
+                        );
                         setPrediction({
                           ...prediction,
-                          coinname: e.target.value,
-                        })
-                      }
-                      value={prediction.coinname}
+                          coin: selectedCoin.label,
+                          pythPriceId: selectedCoin.value,
+                        });
+                      }}
+                      value={prediction.pythPriceId}
                       required
                       className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                       id="coinname"
@@ -214,21 +227,8 @@ const Hero = ({ titleData, createPrediction }) => {
                         </option>
                       ))}
                     </select>
-                    {/* <input
-                      onChange={(e) =>
-                        setPrediction({
-                          ...prediction,
-                          coin: e.target.value,
-                        })
-                      }
-                      placeholder="coin"
-                      required
-                      type="text"
-                      className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="coin"
-                      name="coin"
-                    /> */}
                   </div>
+
                   <div className="mb-1 sm:mb-2">
                     <label
                       htmlFor="reason"
@@ -363,7 +363,7 @@ const Hero = ({ titleData, createPrediction }) => {
                       name="deadline"
                     />
                   </div>
-                  <div className="mb-1 sm:mb-2">
+                  {/* <div className="mb-1 sm:mb-2">
                     <label
                       htmlFor="pythPriceId"
                       className="inline-block mb-1 font-medium"
@@ -390,7 +390,7 @@ const Hero = ({ titleData, createPrediction }) => {
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </div> */}
                   <p className="text-xs text-gray-600 sm:text-sm">
                     Note: The current price of the Coin will be retrieved using
                     the Pyth oracle.{" "}
