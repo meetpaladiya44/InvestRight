@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 
 //INTERNAL IMPORT
-import { CryptoPredictionContext } from "../Context/CryptoPredictor";
+import { CryptoPredictionContext } from "../Context/InvestRight";
 import { Hero, Card, PupUp } from "../Components";
 const index = () => {
   const {

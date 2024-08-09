@@ -4,15 +4,15 @@ import { fallback, injected, unstable_connector } from '@wagmi/core';
 import { getDefaultConfig } from 'connectkit';
 
 export const chain: Chain = {
-	id: 11155420,
-	name: "Optimism Sepolia Anvil Fork",
+	id: 11155111, // Sepolia testnet chain ID
+	name: "Sepolia",
 	nativeCurrency: {
         decimals: 18,
-        name: "Optimism Sepolia Anvil Fork Ether",
+        name: "Sepolia Ether",
         symbol: "SETH",
 	},
 	rpcUrls: {
-	    default: { http: ["http://127.0.0.1:8545/"] },
+	    default: { http: ["https://rpc.sepolia.org"] }, // Updated RPC URL for Sepolia
 	},
 	testnet: true,
 };

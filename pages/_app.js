@@ -2,7 +2,7 @@ import "../styles/globals.css";
 
 import Head from "next/head";
 import { NavBar, Footer } from "../Components";
-import { CryptoPredictionProvider } from "../Context/CryptoPredictor.js";
+import { InvestRightProvider } from "../Context/InvestRight.js";
 import { WagmiProvider } from "wagmi";
 import { config } from "../utils/config.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }) {
         <title>InvestRight</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <CryptoPredictionProvider>
+      <InvestRightProvider>
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
             <ConnectKitProvider>
@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }) {
             </ConnectKitProvider>
           </QueryClientProvider>
         </WagmiProvider>
-      </CryptoPredictionProvider>
+      </InvestRightProvider>
     </div>
   );
 }
