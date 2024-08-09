@@ -3,7 +3,7 @@ import { CryptoPredictionContext } from "../Context/InvestRight.js";
 import { Logo, Menu } from "../Components/index";
 import styles from "../css/BtnShine.module.css";
 import Image from "next/image";
-import Hero from "../assets/images/Hero.png";
+import Hero from "../assets/images/InvestRight.png";
 
 const NavBar = () => {
   const { currentAccount, connectWallet, disconnectWallet } = useContext(
@@ -27,7 +27,7 @@ const NavBar = () => {
               title="InvestRight"
               className="inline-flex items-center mr-8"
             >
-              <Image src={Hero} alt="My Image" width={53} height={30} />
+              <Image src={Hero} alt="My Image" style={{width:"25px"}} />
               <div className="ml-2 text-[26px] font-bold tracking-wide logo">
                 InvestRight
               </div>
