@@ -7,7 +7,7 @@ import {
   InvestRightABI,
   InvestRightAddress,
   handleNetworkSwitch,
-} from "./Crypto";
+} from "./Invest";
 
 //---FETCHING SMART CONTRACT
 const fetchContract = (signerOrProvider) =>

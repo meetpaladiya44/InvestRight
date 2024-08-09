@@ -40,14 +40,32 @@ const Hero = ({ titleData, createPrediction }) => {
     predictionId: "2",
     coin: "",
     reasoning: "",
-    currentPrice: "",
+    // currentPrice: "",
     predictionPrice: "",
     stakeAmount: "",
     viewAmount: "",
     targetDate: "",
-    pythPriceId:
-      "0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace",
+    pythPriceId: "",
   });
+
+  const pythPriceIdOptions = [
+    {
+      value:
+        "0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43",
+      label: "BTC/USD",
+    },
+    {
+      value:
+        "0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace",
+      label: "ETH/USD",
+    },
+    {
+      value:
+        "0xeaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+      label: "USDC/USD",
+    },
+    // Add more options as needed
+  ];
 
   const handleVerify = async (proof) => {
     try {
@@ -84,7 +102,7 @@ const Hero = ({ titleData, createPrediction }) => {
       const signer = provider.getSigner();
 
       const contract = new ethers.Contract(
-        "0xD6f3d80FD0952C8Fd0764D7011d7475DF555cA42", // Replace with your contract address
+        "0x103f7241Db2550F750d5221D40eF4f88926b7DAd", // Replace with your contract address
         InvestRightABI,
         signer
       );
@@ -191,7 +209,7 @@ const Hero = ({ titleData, createPrediction }) => {
                       name="reason"
                     />
                   </div>
-                  <div className="mb-1 sm:mb-2">
+                  {/* <div className="mb-1 sm:mb-2">
                     <label
                       htmlFor="currentPrice"
                       className="inline-block mb-1 font-medium"
@@ -212,7 +230,7 @@ const Hero = ({ titleData, createPrediction }) => {
                       id="currentPrice"
                       name="currentPrice"
                     />
-                  </div>
+                  </div> */}
                   <div className="mb-1 sm:mb-2">
                     <label
                       htmlFor="predictionPrice"
@@ -303,6 +321,38 @@ const Hero = ({ titleData, createPrediction }) => {
                       name="deadline"
                     />
                   </div>
+                  <div className="mb-1 sm:mb-2">
+                    <label
+                      htmlFor="pythPriceId"
+                      className="inline-block mb-1 font-medium"
+                    >
+                      Crypto Price Pair
+                    </label>
+                    <select
+                      onChange={(e) =>
+                        setPrediction({
+                          ...prediction,
+                          pythPriceId: e.target.value,
+                        })
+                      }
+                      value={prediction.pythPriceId}
+                      required
+                      className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                      id="pythPriceId"
+                      name="pythPriceId"
+                    >
+                      <option value="">Available Crypto Pairs</option>
+                      {pythPriceIdOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <p className="text-xs text-gray-600 sm:text-sm">
+                    Note: The current price of the Coin will be retrieved using
+                    the Pyth oracle.{" "}
+                  </p>
                   <div className="mt-4 mb-2 sm:mb-4">
                     {/* {isLoggedIn ? (
                       <button
