@@ -4,23 +4,11 @@ import Head from "next/head";
 import { NavBar, Footer } from "../Components";
 import { InvestRightProvider } from "../Context/InvestRight.js";
 import { ConnectKitProvider } from "connectkit";
-import '@rainbow-me/rainbowkit/styles.css';
-import {
-  getDefaultConfig,
-  RainbowKitProvider,
-} from '@rainbow-me/rainbowkit';
-import { WagmiProvider } from 'wagmi';
-import {
-  mainnet,
-  polygon,
-  optimism,
-  arbitrum,
-  base,
-} from 'wagmi/chains';
-import {
-  QueryClientProvider,
-  QueryClient,
-} from "@tanstack/react-query";
+import "@rainbow-me/rainbowkit/styles.css";
+import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { WagmiProvider } from "wagmi";
+import { mainnet, polygon, optimism, arbitrum, base } from "wagmi/chains";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 const myCustomTheme = {
   blurs: {
     modalOverlay: " blur(10px)",
@@ -35,8 +23,7 @@ const myCustomTheme = {
     closeButtonBackground: " rgba(255, 255, 255, 0.08)",
     connectButtonBackground: "#644df6",
     connectButtonBackgroundError: "#FF494A",
-    connectButtonInnerBackground:
-      "#644df6",
+    connectButtonInnerBackground: "#644df6",
     connectButtonText: "#FFF",
     connectButtonTextError: "#FFF",
     connectionIndicator: "#30E000",
@@ -82,8 +69,8 @@ const myCustomTheme = {
 };
 
 const config = getDefaultConfig({
-  appName: 'My RainbowKit App',
-  projectId: 'f8a6524307e28135845a9fe5811fcaa2',
+  appName: "My RainbowKit App",
+  projectId: "f8a6524307e28135845a9fe5811fcaa2",
   chains: [mainnet, polygon, optimism, arbitrum, base],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
@@ -98,14 +85,14 @@ export default function App({ Component, pageProps }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider  theme={myCustomTheme} >
-              <NavBar />
-              <Component {...pageProps} />
-              <Footer />
-              </RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider theme={myCustomTheme}>
+            <NavBar />
+            <Component {...pageProps} />
+            <Footer />
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
     </div>
   );
 }
