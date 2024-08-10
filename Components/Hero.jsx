@@ -16,7 +16,6 @@ const Hero = ({ titleData, createPrediction }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
   const [done, setDone] = useState(false);
-  const [predictionIdCounter, setPredictionIdCounter] = useState(0);
   const {
     data: hash,
     isPending,
@@ -185,12 +184,6 @@ const Hero = ({ titleData, createPrediction }) => {
 
       await tx.wait();
       console.log("Prediction created successfully!");
-
-      setPredictionIdCounter((prevCounter) => prevCounter + 1);
-      setPrediction({
-        ...prediction,
-        predictionId: predictionIdCounter + 1,
-      });
     } catch (error) {
       console.log("Error creating prediction:", error);
     }
