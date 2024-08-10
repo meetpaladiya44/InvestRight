@@ -35,7 +35,7 @@ const Attestation = ({ titleData, createPrediction }) => {
   const [done, setDone] = useState(false);
 
   const [prediction, setPrediction] = useState({
-    predictionId: "0",
+    predictionId: "1873425678982345",
     coin: "",
     reasoning: "",
     predictionPrice: "",
@@ -176,11 +176,9 @@ const Attestation = ({ titleData, createPrediction }) => {
       // Assuming you have a way to determine if the stake is positive or negative
       const isPositive = true; // Replace with your logic to determine if the stake is positive or negative
 
-      const tx = await contract.addStake(
-        prediction.predictionId,
-        isPositive,
-        { value: stakeAmount }
-      );
+      const tx = await contract.addStake(prediction.predictionId, isPositive, {
+        value: stakeAmount,
+      });
 
       await tx.wait();
       setIsTxCompleted(true);
@@ -200,7 +198,7 @@ const Attestation = ({ titleData, createPrediction }) => {
   const handleStakeTypeChange = (e) => {
     const selectedValue = e.target.value;
     setSelectedAttestationType(selectedValue);
-    setIsPositive(selectedValue === 'positive');
+    setIsPositive(selectedValue === "positive");
   };
 
   return (
@@ -250,7 +248,7 @@ const Attestation = ({ titleData, createPrediction }) => {
                     className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl"
                     style={{ color: "#644df6", fontWeight: "700" }}
                   >
-                    Attestation
+                    Challenge The Prediction
                   </h3>
                   <form>
                     <div className="mb-1 sm:mb-2">
@@ -268,7 +266,7 @@ const Attestation = ({ titleData, createPrediction }) => {
                         name="prediction-id"
                         style={{ padding: "10px" }}
                       >
-                        0
+                        1873425678982345
                       </div>
                     </div>
                     <div className="mb-1 sm:mb-2">
@@ -286,7 +284,12 @@ const Attestation = ({ titleData, createPrediction }) => {
                         name="prediction-id"
                         style={{ padding: "10px" }}
                       >
-                        6868
+                        {session?.user?.email
+                          ? `${session?.user?.email?.slice(
+                              0,
+                              6
+                            )}...${session?.user?.email?.slice(-4)}`
+                          : `SignIn with World ID`}
                       </div>
                     </div>
                     <div className="mb-1 sm:mb-2">
