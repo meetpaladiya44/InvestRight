@@ -12,28 +12,25 @@ import { ethers } from "ethers";
 
 const Hero = ({ titleData, createPrediction }) => {
   const { address: userAddress } = useAccount();
+  const account = useAccount();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isTxCompleted, setIsTxCompleted] = useState(false);
   const router = useRouter();
   const [done, setDone] = useState(false);
-  // const {
-  //   data: hash,
-  //   isPending,
-  //   error,
-  //   writeContractAsync,
-  // } = useWriteContract({
-  //   address: "0xD6f3d80FD0952C8Fd0764D7011d7475DF555cA42",
-  //   abi: InvestRightABI,
-  //   functionName: "createPrediction",
-  // });
-  // const { isLoading: isConfirming, isSuccess: isConfirmed } =
-  //   useWaitForTransactionReceipt({
-  //     hash,
-  //   });
-
-  const handleWorldIDLogin = () => {
-    router.push("/login");
-  };
+  const {
+    data: hash,
+    isPending,
+    error,
+    writeContractAsync,
+  } = useWriteContract({
+    address: "0xD6f3d80FD0952C8Fd0764D7011d7475DF555cA42",
+    abi: InvestRightABI,
+    functionName: "createPrediction",
+  });
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
 
   const submitTx = async (proof) => {
     // Implement your transaction logic here
@@ -42,10 +39,11 @@ const Hero = ({ titleData, createPrediction }) => {
   };
 
   const [prediction, setPrediction] = useState({
-    predictionId: "2",
+    predictionId: ethers.BigNumber.from(
+      ethers.utils.randomBytes(32)
+    ).toString(),
     coin: "",
     reasoning: "",
-    // currentPrice: "",
     predictionPrice: "",
     stakeAmount: "",
     viewAmount: "",
@@ -56,20 +54,79 @@ const Hero = ({ titleData, createPrediction }) => {
   const pythPriceIdOptions = [
     {
       value:
+        "0x385f64d993f7b77d8182ed5003d97c60aa3361f3cecfe711544d2d59165e9bdf",
+      label: "OP",
+    },
+    {
+      value:
+        "0xd6835ad1f773de4a378115eb6824bd0c0e42d84d1c84d9750e853fb6b6c7794a",
+      label: "WLD",
+    },
+    {
+      value:
         "0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43",
-      label: "BTC/USD",
+      label: "BTC",
     },
     {
       value:
         "0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace",
-      label: "ETH/USD",
+      label: "ETH",
     },
     {
       value:
-        "0xeaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
-      label: "USDC/USD",
+        "0xef0d8b6fda2ceba41da15d4095d1da392a0d2f8ed0c6c7bc0f4cfac8c280b56d",
+      label: "SOL",
     },
-    // Add more options as needed
+    {
+      value:
+        "0x2b9ab1e972a281585084148ba1389800799bd4be63b957507db1349314e47445",
+      label: "AAVE",
+    },
+    {
+      value:
+        "0x4a8e42861cabc5ecb50996f92e7cfa2bce3fd0a2423b0c44c9b423fb2bd25478",
+      label: "COMP",
+    },
+    {
+      value:
+        "0xdcef50dd0a4cd2dcc17e45df1676dcb336a11a61c69df7a0299b0150c672d25c",
+      label: "DOGE",
+    },
+    {
+      value:
+        "0x0781209c28fda797616212b7f94d77af3a01f3e94a5d421760aef020cf2bcb51",
+      label: "GALA",
+    },
+    {
+      value:
+        "0x8ac0c70fff57e9aefdf5edf44b51d62c2d433653cbb2cf5cc06bb115af04d221",
+      label: "LINK",
+    },
+    {
+      value:
+        "0x5de33a9112c2b700b8d30b8a3402c103578ccfa2765696471cc672bd5cf6ac52",
+      label: "MATIC",
+    },
+    {
+      value:
+        "0xc415de8d2eba7db216527dff4b60e8f3a5311c740dadb233e13e12547e226750",
+      label: "NEAR",
+    },
+    {
+      value:
+        "0x67aed5a24fdad045475e7195c98a98aea119c763f272d4523f5bac93a4f33c2b",
+      label: "TRX",
+    },
+    {
+      value:
+        "0xec5d399846a9209f3fe5881d70aae9268c94339ff9817e8d18ff19fa05eea1c8",
+      label: "XRP",
+    },
+    {
+      value:
+        "0x78d185a741d07edb3412b09008b7c5cfb9bbbd7d568bf00ba737b456ba171501",
+      label: "UNI",
+    },
   ];
 
   const handleVerify = async (proof) => {
@@ -107,7 +164,7 @@ const Hero = ({ titleData, createPrediction }) => {
       const signer = provider.getSigner();
 
       const contract = new ethers.Contract(
-        "0x103f7241Db2550F750d5221D40eF4f88926b7DAd", // Replace with your contract address
+        "0x384d7cE3FcD8502234446d9F080A97Af432382FC", // Replace with your contract address
         InvestRightABI,
         signer
       );
@@ -139,10 +196,10 @@ const Hero = ({ titleData, createPrediction }) => {
     <div className="relative">
       <span className=""></span>
       {/* <img
-        src="https://img.freepik.com/free-vector/gradient-stock-market-concept-with-statistics_23-2149157696.jpg?semt=ais_hybrid"
-        className="absolute inset-0 object-cover w-full h-full"
-        alt=""
-      /> */}
+      src="https://img.freepik.com/free-vector/gradient-stock-market-concept-with-statistics_23-2149157696.jpg?semt=ais_hybrid"
+      className="absolute inset-0 object-cover w-full h-full"
+      alt=""
+    /> */}
       <div className="relative bg-[#644DF6]">
         <svg
           className="absolute inset-x-0 bottom-0 text-white"
@@ -156,19 +213,34 @@ const Hero = ({ titleData, createPrediction }) => {
         <div className="relative px-4 py-16 mx-auto overflow-hidden sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-10 lg:py-20">
           <div className="flex flex-col items-center justify-center xl:flex-row">
             <div className="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
-              <h3 className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none">
-                Invest Right: <br className="hidden md:block" />
-                Predict the price of different crypto currencies
+              <h3
+                className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none"
+                style={{ fontWeight: "700" }}
+              >
+                Invest Right : <br className="hidden md:block" />
               </h3>
+              <h2
+                className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg"
+                style={{
+                  fontSize: "2rem",
+                  lineHeight: "37px",
+                  fontWeight: "700",
+                }}
+              >
+                Predict the price of different crypto currencies
+              </h2>
               <p className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg">
                 Predict cryptocurrency prices and share your insights in
                 interactive frames. Users can also attest to predictions with
                 positive, negative, or not useful votes.
               </p>
             </div>
-            <div className="w-full max-w-xl xl:w-5/12">
+            <div className="w-full  xl:w-5/12" style={{ maxWidth: "42rem" }}>
               <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
-                <h3 className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl">
+                <h3
+                  className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl"
+                  style={{ color: "#644df6", fontWeight: "700" }}
+                >
                   Predict
                 </h3>
                 <form>
@@ -179,21 +251,32 @@ const Hero = ({ titleData, createPrediction }) => {
                     >
                       Coin
                     </label>
-                    <input
-                      onChange={(e) =>
+                    <select
+                      onChange={(e) => {
+                        const selectedCoin = pythPriceIdOptions.find(
+                          (option) => option.value === e.target.value
+                        );
                         setPrediction({
                           ...prediction,
-                          coin: e.target.value,
-                        })
-                      }
-                      placeholder="coin"
+                          coin: selectedCoin.label,
+                          pythPriceId: selectedCoin.value,
+                        });
+                      }}
+                      value={prediction.pythPriceId}
                       required
-                      type="text"
                       className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="coin"
-                      name="coin"
-                    />
+                      id="coinname"
+                      name="coinname"
+                    >
+                      <option value="">Select Coin</option>
+                      {pythPriceIdOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+
                   <div className="mb-1 sm:mb-2">
                     <label
                       htmlFor="reason"
@@ -328,7 +411,7 @@ const Hero = ({ titleData, createPrediction }) => {
                       name="deadline"
                     />
                   </div>
-                  <div className="mb-1 sm:mb-2">
+                  {/* <div className="mb-1 sm:mb-2">
                     <label
                       htmlFor="pythPriceId"
                       className="inline-block mb-1 font-medium"
@@ -355,101 +438,86 @@ const Hero = ({ titleData, createPrediction }) => {
                         </option>
                       ))}
                     </select>
-                  </div>
-                  <p className="text-xs text-gray-600 sm:text-sm">
-                    Note: The current price of the Coin will be retrieved using
-                    the Pyth oracle.{" "}
-                  </p>
-                  <div className="mt-4 mb-2 sm:mb-4">
-                    {/* {isLoggedIn ? (
-                      <button
-                        type="submit"
-                        className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
-                        onClick={(e) => handleCreatePrediction(e)}
-                      >
-                        Make Prediction
-                      </button>
-                    ) : (
-                      // <IDKitWidget
-                      //   app_id={process.env.NEXT_PUBLIC_APP_ID}
-                      //   action={process.env.NEXT_PUBLIC_ACTION}
-                      //   signal={account.address}
-                      //   onSuccess={submitTx}
-                      //   // handleVerify={handleVerify}
-                      //   autoClose
-                      // >
-                      //   {({ open }) => (
-                      //     <button
-                      //       onClick={() => !done && open()}
-                      //       className={`w-full py-4 px-6 rounded-full text-white font-semibold text-lg transition-all ${
-                      //         !hash && !isPending
-                      //           ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
-                      //           : isPending
-                      //           ? "bg-yellow-500 hover:bg-yellow-600"
-                      //           : "bg-green-500 hover:bg-green-600"
-                      //       } ${
-                      //         done ? "opacity-50 cursor-not-allowed" : ""
-                      //       } transform hover:scale-105`}
-                      //       disabled={done}
-                      //     >
-                      //       {!hash &&
-                      //         (isPending
-                      //           ? "Pending, please check your wallet..."
-                      //           : "Login with WorldID")}
-                      //       {done && "Transaction Completed"}
-                      //     </button>
-                      //   )}
-                      // </IDKitWidget>
-                      <></>
-                    )} */}
-                    {isLoggedIn ? (
-                      <button
-                        type="submit"
-                        className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
-                      >
-                        Make Prediction
-                      </button>
-                    ) : (
-                      <button
-                        onClick={handleWorldIDLogin}
-                        type="submit"
-                        className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
-                      >
-                        <span>Login With WorldID</span>
-                      </button>
-                    )}
+                  </div> */}
+                </form>
+                <p className="text-xs text-gray-600 sm:text-sm">
+                  Note: The current price of the Coin will be retrieved using
+                  the Pyth oracle.{" "}
+                </p>
+
+                <p className="text-xs text-gray-600 sm:text-sm">
+                  Create your prediction on any crypto currency you want
+                </p>
+
+                <div className="mt-4 mb-2 sm:mb-4">
+                  {isLoggedIn ? (
                     <button
                       type="submit"
-                      className={`${
-                        isTxCompleted
-                          ? "hidden"
-                          : "inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
-                      }`}
+                      className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
                       onClick={(e) => handleCreatePrediction(e)}
                     >
                       Make Prediction
                     </button>
-                    {isTxCompleted && (
-                      <div>
-                        <label
-                          htmlFor="url"
-                          className="inline-block mb-1 font-medium"
+                  ) : (
+                    <IDKitWidget
+                      app_id={process.env.NEXT_PUBLIC_APP_ID}
+                      action={process.env.NEXT_PUBLIC_ACTION}
+                      signal={account.address}
+                      onSuccess={submitTx}
+                      // handleVerify={handleVerify}
+                      autoClose
+                    >
+                      {({ open }) => (
+                        <button
+                          onClick={() => !done && open()}
+                          className={`w-full py-4 px-6 rounded text-white font-semibold text-lg transition-all ${
+                            !hash && !isPending
+                              ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
+                              : isPending
+                              ? "bg-yellow-500 hover:bg-yellow-600"
+                              : "bg-green-500 hover:bg-green-600"
+                          } ${
+                            done ? "opacity-50 cursor-not-allowed" : ""
+                          } transform hover:scale-105`}
+                          disabled={done}
                         >
-                          URL
-                        </label>
-                        <div
-                          id="url"
-                          style={{ padding: "8px 0", fontSize: "1rem" }}
-                        >
-                          {`https://frog-setup.vercel.app/${prediction.predictionId}`}
-                        </div>
+                          {!hash &&
+                            (isPending
+                              ? "Pending, please check your wallet..."
+                              : "Login with WorldID")}
+                          {done && "Transaction Completed"}
+                        </button>
+                      )}
+                    </IDKitWidget>
+                  )}
+                  {/* <button
+                    type="submit"
+                    className={`${
+                      isTxCompleted
+                        ? "hidden"
+                        : "inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                    }`}
+                    onClick={(e) => handleCreatePrediction(e)}
+                  >
+                    Make Prediction
+                  </button> */}
+                  {isTxCompleted && (
+                    <div>
+                      <label
+                        htmlFor="url"
+                        className="inline-block mb-1 font-medium"
+                      >
+                        URL
+                      </label>
+                      <div
+                        id="url"
+                        style={{ padding: "8px 0", fontSize: "1rem" }}
+                      >
+                        {`https://frog-setup.vercel.app/${prediction.predictionId}`}
                       </div>
-                    )}
-                  </div>
-                  <p className="text-xs text-gray-600 sm:text-sm">
-                    Create your prediction on any crypto currency you want
-                  </p>
-                </form>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
