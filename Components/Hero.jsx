@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next-nprogress-bar";
 import { IDKitWidget, ISuccessResult } from "@worldcoin/idkit";
+import { FaChevronDown } from "react-icons/fa";
 import {
   useAccount,
   useWriteContract,
@@ -20,6 +21,7 @@ const Hero = ({ titleData, createPrediction }) => {
   const [isTxCompleted, setIsTxCompleted] = useState(false);
   const router = useRouter();
   const [done, setDone] = useState(false);
+
   const {
     data: hash,
     isPending,
@@ -192,14 +194,10 @@ const Hero = ({ titleData, createPrediction }) => {
   return (
     <div className="relative">
       <span className=""></span>
-      {/* <img
-      src="https://img.freepik.com/free-vector/gradient-stock-market-concept-with-statistics_23-2149157696.jpg?semt=ais_hybrid"
-      className="absolute inset-0 object-cover w-full h-full"
-      alt=""
-    /> */}
+
       <div className="relative bg-[#644DF6]">
         <svg
-          className="absolute inset-x-0 bottom-0 text-white"
+          className="absolute inset-x-0 bottom-[-2px] text-white"
           viewBox="0 0 1160 163"
         >
           <path
@@ -209,94 +207,98 @@ const Hero = ({ titleData, createPrediction }) => {
         </svg>
         <div className="relative px-4 py-16 mx-auto overflow-hidden sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-10 lg:py-20">
           <div className="flex flex-col items-center justify-center xl:flex-row">
-            <div className="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
-              <h3
-                className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none"
-                style={{ fontWeight: "700" }}
-              >
-                Invest Right : <br className="hidden md:block" />
-              </h3>
-              <h2
-                className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg"
-                style={{
-                  fontSize: "2rem",
-                  lineHeight: "37px",
-                  fontWeight: "700",
-                }}
-              >
-                Predict the price of different crypto currencies
-              </h2>
-              <p className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg">
-                Predict cryptocurrency prices and share your insights in
-                interactive frames. Users can also attest to predictions with
-                positive, negative, or not useful votes.
-              </p>
-            </div>
-            <div className="w-full  xl:w-5/12" style={{ maxWidth: "42rem" }}>
-              <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
+            <div className="flex flex-col items-center justify-center xl:flex-row">
+              <div className="w-full  mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
                 <h3
-                  className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl"
-                  style={{ color: "#644df6", fontWeight: "700" }}
+                  className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none"
+                  style={{ fontWeight: "700" }}
                 >
-                  Predict
+                  Invest Right : <br className="hidden md:block" />
                 </h3>
-                <form>
-                  <div className="mb-1 sm:mb-2">
-                    <label
-                      htmlFor="coin"
-                      className="inline-block mb-1 font-medium"
-                    >
-                      Coin
-                    </label>
-                    <select
-                      onChange={(e) => {
-                        const selectedCoin = pythPriceIdOptions.find(
-                          (option) => option.value === e.target.value
-                        );
-                        setPrediction({
-                          ...prediction,
-                          coin: selectedCoin.label,
-                          pythPriceId: selectedCoin.value,
-                        });
-                      }}
-                      value={prediction.pythPriceId}
-                      required
-                      className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="coinname"
-                      name="coinname"
-                    >
-                      <option value="">Select Coin</option>
-                      {pythPriceIdOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <h2
+                  className="font-semibold  mb-4 text-base text-gray-200 md:text-lg"
+                  style={{
+                    fontSize: "2rem",
+                    lineHeight: "37px",
+                    fontWeight: "700",
+                  }}
+                >
+                  Predict the price of different crypto currencies
+                </h2>
+                <p className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg">
+                  Predict cryptocurrency prices and share your insights in
+                  interactive frames. Users can also attest to predictions with
+                  positive, negative, or not useful votes.
+                </p>
+              </div>
+              <div className="w-full  xl:w-5/12" style={{ maxWidth: "42rem" }}>
+                <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
+                  <h3
+                    className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl"
+                    style={{ color: "#644df6", fontWeight: "700" }}
+                  >
+                    Predict
+                  </h3>
+                  <form>
+                    <div className="mb-1 sm:mb-2">
+                      <label
+                        htmlFor="coin"
+                        className="inline-block mb-1 font-medium"
+                      >
+                        Coin
+                      </label>
+                      <div className="relative">
+                        <select
+                          onChange={(e) => {
+                            const selectedCoin = pythPriceIdOptions.find(
+                              (option) => option.value === e.target.value
+                            );
+                            setPrediction({
+                              ...prediction,
+                              coin: selectedCoin.label,
+                              pythPriceId: selectedCoin.value,
+                            });
+                          }}
+                          value={prediction.pythPriceId}
+                          required
+                          className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                          id="coinname"
+                          name="coinname"
+                        >
+                          <option value="">Select Coin </option>
+                          {pythPriceIdOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                        <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+                      </div>
+                    </div>
 
-                  <div className="mb-1 sm:mb-2">
-                    <label
-                      htmlFor="reason"
-                      className="inline-block mb-1 font-medium"
-                    >
-                      Reason
-                    </label>
-                    <input
-                      onChange={(e) =>
-                        setPrediction({
-                          ...prediction,
-                          reasoning: e.target.value,
-                        })
-                      }
-                      placeholder="reasoning"
-                      required
-                      type="text"
-                      className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="reason"
-                      name="reason"
-                    />
-                  </div>
-                  {/* <div className="mb-1 sm:mb-2">
+                    <div className="mb-1 sm:mb-2">
+                      <label
+                        htmlFor="reason"
+                        className="inline-block mb-1 font-medium"
+                      >
+                        Reason
+                      </label>
+                      <input
+                        onChange={(e) =>
+                          setPrediction({
+                            ...prediction,
+                            reasoning: e.target.value,
+                          })
+                        }
+                        placeholder="reasoning"
+                        required
+                        type="text"
+                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        id="reason"
+                        name="reason"
+                      />
+                    </div>
+                    {/* <div className="mb-1 sm:mb-2">
                     <label
                       htmlFor="currentPrice"
                       className="inline-block mb-1 font-medium"
@@ -318,97 +320,97 @@ const Hero = ({ titleData, createPrediction }) => {
                       name="currentPrice"
                     />
                   </div> */}
-                  <div className="mb-1 sm:mb-2">
-                    <label
-                      htmlFor="predictionPrice"
-                      className="inline-block mb-1 font-medium"
-                    >
-                      Prediction Price
-                    </label>
-                    <input
-                      onChange={(e) =>
-                        setPrediction({
-                          ...prediction,
-                          predictionPrice: e.target.value,
-                        })
-                      }
-                      placeholder="target price"
-                      required
-                      type="text"
-                      className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="predictionPrice"
-                      name="predictionPrice"
-                    />
-                  </div>
-                  <div className="mb-1 sm:mb-2">
-                    <label
-                      htmlFor="stakeAmount"
-                      className="inline-block mb-1 font-medium"
-                    >
-                      Stake Amount
-                    </label>
-                    <input
-                      onChange={(e) =>
-                        setPrediction({
-                          ...prediction,
-                          stakeAmount: e.target.value,
-                        })
-                      }
-                      placeholder="stake amount"
-                      required
-                      type="text"
-                      className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="stakeAmount"
-                      name="stakeAmount"
-                    />
-                  </div>
-                  <div className="mb-1 sm:mb-2">
-                    <label
-                      htmlFor="viewPrice"
-                      className="inline-block mb-1 font-medium"
-                    >
-                      View Price
-                    </label>
-                    <input
-                      onChange={(e) =>
-                        setPrediction({
-                          ...prediction,
-                          viewAmount: e.target.value,
-                        })
-                      }
-                      placeholder="view amount"
-                      required
-                      type="text"
-                      className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="viewPrice"
-                      name="viewPrice"
-                    />
-                  </div>
-                  <div className="mb-1 sm:mb-2">
-                    <label
-                      htmlFor="deadline"
-                      className="inline-block mb-1 font-medium"
-                    >
-                      Deadline
-                    </label>
-                    <input
-                      onChange={(e) => {
-                        const targetDate =
-                          new Date(e.target.value).getTime() / 1000; // Convert to epoch
-                        setPrediction({
-                          ...prediction,
-                          targetDate: targetDate,
-                        });
-                      }}
-                      placeholder="target date"
-                      required
-                      type="date"
-                      className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                      id="deadline"
-                      name="deadline"
-                    />
-                  </div>
-                  {/* <div className="mb-1 sm:mb-2">
+                    <div className="mb-1 sm:mb-2">
+                      <label
+                        htmlFor="predictionPrice"
+                        className="inline-block mb-1 font-medium"
+                      >
+                        Prediction Price
+                      </label>
+                      <input
+                        onChange={(e) =>
+                          setPrediction({
+                            ...prediction,
+                            predictionPrice: e.target.value,
+                          })
+                        }
+                        placeholder="target price"
+                        required
+                        type="text"
+                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        id="predictionPrice"
+                        name="predictionPrice"
+                      />
+                    </div>
+                    <div className="mb-1 sm:mb-2">
+                      <label
+                        htmlFor="stakeAmount"
+                        className="inline-block mb-1 font-medium"
+                      >
+                        Stake Amount
+                      </label>
+                      <input
+                        onChange={(e) =>
+                          setPrediction({
+                            ...prediction,
+                            stakeAmount: e.target.value,
+                          })
+                        }
+                        placeholder="stake amount"
+                        required
+                        type="text"
+                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        id="stakeAmount"
+                        name="stakeAmount"
+                      />
+                    </div>
+                    <div className="mb-1 sm:mb-2">
+                      <label
+                        htmlFor="viewPrice"
+                        className="inline-block mb-1 font-medium"
+                      >
+                        View Price
+                      </label>
+                      <input
+                        onChange={(e) =>
+                          setPrediction({
+                            ...prediction,
+                            viewAmount: e.target.value,
+                          })
+                        }
+                        placeholder="view amount"
+                        required
+                        type="text"
+                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        id="viewPrice"
+                        name="viewPrice"
+                      />
+                    </div>
+                    <div className="mb-1 sm:mb-2">
+                      <label
+                        htmlFor="deadline"
+                        className="inline-block mb-1 font-medium"
+                      >
+                        Deadline
+                      </label>
+                      <input
+                        onChange={(e) => {
+                          const targetDate =
+                            new Date(e.target.value).getTime() / 1000; // Convert to epoch
+                          setPrediction({
+                            ...prediction,
+                            targetDate: targetDate,
+                          });
+                        }}
+                        placeholder="target date"
+                        required
+                        type="date"
+                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        id="deadline"
+                        name="deadline"
+                      />
+                    </div>
+                    {/* <div className="mb-1 sm:mb-2">
                     <label
                       htmlFor="pythPriceId"
                       className="inline-block mb-1 font-medium"
@@ -436,10 +438,16 @@ const Hero = ({ titleData, createPrediction }) => {
                       ))}
                     </select>
                   </div> */}
+                  </form>
                   <p className="text-xs text-gray-600 sm:text-sm">
                     Note: The current price of the Coin will be retrieved using
                     the Pyth oracle.{" "}
                   </p>
+
+                  <p className="text-xs text-gray-600 sm:text-sm">
+                    Create your prediction on any crypto currency you want
+                  </p>
+
                   <div className="mt-4 mb-2 sm:mb-4">
                     {isLoggedIn ? (
                       <button
@@ -450,14 +458,44 @@ const Hero = ({ titleData, createPrediction }) => {
                         Make Prediction
                       </button>
                     ) : (
+                      // <IDKitWidget
+                      //   app_id={process.env.NEXT_PUBLIC_APP_ID}
+                      //   action={process.env.NEXT_PUBLIC_ACTION}
+                      //   signal={account.address}
+                      //   onSuccess={submitTx}
+                      //   // handleVerify={handleVerify}
+                      //   autoClose
+                      // >
+                      //   {({ open }) => (
+                      //     <button
+                      //       onClick={() => !done && open()}
+                      //       className={`w-full py-4 px-6 rounded text-white font-semibold text-lg transition-all ${
+                      //         !hash && !isPending
+                      //           ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
+                      //           : isPending
+                      //           ? "bg-yellow-500 hover:bg-yellow-600"
+                      //           : "bg-green-500 hover:bg-green-600"
+                      //       } ${
+                      //         done ? "opacity-50 cursor-not-allowed" : ""
+                      //       } transform hover:scale-105`}
+                      //       disabled={done}
+                      //     >
+                      //       {!hash &&
+                      //         (isPending
+                      //           ? "Pending, please check your wallet..."
+                      //           : "Login with WorldID")}
+                      //       {done && "Transaction Completed"}
+                      //     </button>
+                      //   )}
+                      // </IDKitWidget>
                       <div>
                         {!session && !loading && (
-                          <div className="bg-indigo-600 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
-                            <span className="block text-indigo-100 text-center mb-4">
+                          <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
+                            <span className="block text-gray-600 text-center mb-4">
                               You are not signed in
                             </span>
                             <button
-                              className="w-full bg-green-500 hover:bg-yellow-500 hover:text-black text-white font-semibold px-6 py-3 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50"
+                              className="w-full bg-green-500 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50"
                               onClick={() => signIn("worldcoin")}
                             >
                               Sign in with World ID
@@ -466,20 +504,20 @@ const Hero = ({ titleData, createPrediction }) => {
                         )}
 
                         {session?.user && (
-                          <div className="bg-indigo-100 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
+                          <div className="bg-green-50 border-2 border-green-200 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
                             <div className="flex items-center justify-center space-x-4 mb-4">
                               {session.user.image && (
                                 <img
                                   src={session.user.image}
                                   alt="User Avatar"
-                                  className="w-16 h-16 rounded-full border-2 border-indigo-400 shadow-lg"
+                                  className="w-16 h-16 rounded-full border-2 border-green-400 shadow-lg"
                                 />
                               )}
                               <div className="text-center">
-                                <small className="block text-indigo-500">
+                                <small className="block text-gray-500">
                                   Signed in as
                                 </small>
-                                <strong className="text-xl text-indigo-800">
+                                <strong className="text-xl text-gray-800">
                                   {session.user.email
                                     ? `${session.user.email.slice(
                                         0,
@@ -493,7 +531,7 @@ const Hero = ({ titleData, createPrediction }) => {
                               </div>
                             </div>
                             <button
-                              className="w-full bg-red-500 text-white px-6 py-2 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50"
+                              className="w-full bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50"
                               onClick={() => signOut()}
                             >
                               Sign out
@@ -503,17 +541,34 @@ const Hero = ({ titleData, createPrediction }) => {
                       </div>
                     )}
                     {/* <button
-                      type="submit"
-                      className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none  transition duration-200 rounded shadow-md newColor"
-                      onClick={(e) => handleCreatePrediction(e)}
-                    >
-                      Make Prediction
-                    </button> */}
+                    type="submit"
+                    className={`${
+                      isTxCompleted
+                        ? "hidden"
+                        : "inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                    }`}
+                    onClick={(e) => handleCreatePrediction(e)}
+                  >
+                    Make Prediction
+                  </button> */}
+                    {isTxCompleted && (
+                      <div>
+                        <label
+                          htmlFor="url"
+                          className="inline-block mb-1 font-medium"
+                        >
+                          URL
+                        </label>
+                        <div
+                          id="url"
+                          style={{ padding: "8px 0", fontSize: "1rem" }}
+                        >
+                          {`https://frog-setup.vercel.app/api/${prediction.predictionId}`}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <p className="text-xs text-gray-600 sm:text-sm">
-                    Create your prediction on any crypto currency you want
-                  </p>
-                </form>
+                </div>
               </div>
             </div>
           </div>
