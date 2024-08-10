@@ -7,8 +7,6 @@ import Hero from "../assets/images/InvestRight.png";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const NavBar = () => {
-
-
   return (
     <div className="bg-[#FFFFFF]">
       <div className="px-[60px] py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
@@ -20,14 +18,14 @@ const NavBar = () => {
               title="InvestRight"
               className="inline-flex items-center mr-8"
             >
-              <Image src={Hero} alt="My Image" style={{width:"25px"}} />
+              <Image src={Hero} alt="My Image" style={{ width: "25px" }} />
               <div className="ml-2 text-[26px] font-bold tracking-wide logo">
                 InvestRight
               </div>
             </a>
           </div>
           <ul className="items-center hidden space-x-8 lg:flex">
-           <ConnectButton/>
+            <ConnectButton />
           </ul>
 
           {/* ... (rest of the component remains the same) ... */}
