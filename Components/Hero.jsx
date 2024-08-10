@@ -369,7 +369,7 @@ const Hero = ({ titleData, createPrediction }) => {
                         htmlFor="viewPrice"
                         className="inline-block mb-1 font-medium"
                       >
-                        View Price
+                        View Fees
                       </label>
                       <input
                         onChange={(e) =>
@@ -449,14 +449,51 @@ const Hero = ({ titleData, createPrediction }) => {
                   </p>
 
                   <div className="mt-4 mb-2 sm:mb-4">
-                    {isLoggedIn ? (
-                      <button
-                        type="submit"
-                        className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
-                        onClick={(e) => handleCreatePrediction(e)}
-                      >
-                        Make Prediction
-                      </button>
+                    {!isLoggedIn ? (
+                      <div>
+                        <button
+                          type="submit"
+                          className="mb-7 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                          onClick={(e) => handleCreatePrediction(e)}
+                        >
+                          Make Prediction
+                        </button>
+                        {session?.user && (
+                          <div className="bg-green-50 border-2 border-green-200 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
+                            <div className="flex items-center justify-center space-x-4 mb-4">
+                              {session.user.image && (
+                                <img
+                                  src={session.user.image}
+                                  alt="User Avatar"
+                                  className="w-16 h-16 rounded-full border-2 border-green-400 shadow-lg"
+                                />
+                              )}
+                              <div className="text-center">
+                                <small className="block text-gray-500">
+                                  Signed in as
+                                </small>
+                                <strong className="text-xl text-gray-800">
+                                  {session.user.email
+                                    ? `${session.user.email.slice(
+                                        0,
+                                        6
+                                      )}...${session.user.email.slice(-4)}`
+                                    : `${session.user.name.slice(
+                                        0,
+                                        6
+                                      )}...${session.user.name.slice(-4)}`}
+                                </strong>
+                              </div>
+                            </div>
+                            <button
+                              className="w-full bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50"
+                              onClick={() => signOut()}
+                            >
+                              Sign out
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     ) : (
                       // <IDKitWidget
                       //   app_id={process.env.NEXT_PUBLIC_APP_ID}
@@ -496,45 +533,11 @@ const Hero = ({ titleData, createPrediction }) => {
                             </span>
                             <button
                               className="w-full bg-green-500 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50"
-                              onClick={() => signIn("worldcoin")}
+                              onClick={() =>
+                                signIn("worldcoin").then(setIsLoggedIn(true))
+                              }
                             >
                               Sign in with World ID
-                            </button>
-                          </div>
-                        )}
-
-                        {session?.user && (
-                          <div className="bg-green-50 border-2 border-green-200 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
-                            <div className="flex items-center justify-center space-x-4 mb-4">
-                              {session.user.image && (
-                                <img
-                                  src={session.user.image}
-                                  alt="User Avatar"
-                                  className="w-16 h-16 rounded-full border-2 border-green-400 shadow-lg"
-                                />
-                              )}
-                              <div className="text-center">
-                                <small className="block text-gray-500">
-                                  Signed in as
-                                </small>
-                                <strong className="text-xl text-gray-800">
-                                  {session.user.email
-                                    ? `${session.user.email.slice(
-                                        0,
-                                        6
-                                      )}...${session.user.email.slice(-4)}`
-                                    : `${session.user.name.slice(
-                                        0,
-                                        6
-                                      )}...${session.user.name.slice(-4)}`}
-                                </strong>
-                              </div>
-                            </div>
-                            <button
-                              className="w-full bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50"
-                              onClick={() => signOut()}
-                            >
-                              Sign out
                             </button>
                           </div>
                         )}
@@ -555,15 +558,23 @@ const Hero = ({ titleData, createPrediction }) => {
                       <div>
                         <label
                           htmlFor="url"
-                          className="inline-block mb-1 font-medium"
+                          className="inline-block mb-1 font-medium py-4"
+                          style="font-size: 22px;"
                         >
-                          URL
+                          Link for Farcaster
                         </label>
                         <div
                           id="url"
-                          style={{ padding: "8px 0", fontSize: "1rem" }}
+                          className="p-4 border border-gray-300 rounded-md shadow-sm bg-gray-50 overflow-x-auto whitespace-nowrap"
                         >
-                          {`https://frog-setup.vercel.app/api/${prediction.predictionId}`}
+                          <a
+                            href={`https://frog-setup.vercel.app/api/${prediction.predictionId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-800 break-all"
+                          >
+                            {`https://frog-setup.vercel.app/api/${prediction.predictionId}`}
+                          </a>
                         </div>
                       </div>
                     )}
