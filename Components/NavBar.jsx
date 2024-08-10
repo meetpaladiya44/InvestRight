@@ -4,17 +4,10 @@ import { Logo, Menu } from "../Components/index";
 import styles from "../css/BtnShine.module.css";
 import Image from "next/image";
 import Hero from "../assets/images/InvestRight.png";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const NavBar = () => {
-  const { currentAccount, connectWallet, disconnectWallet } = useContext(
-    CryptoPredictionContext
-  );
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const truncateAddress = (address) => {
-    if (!address) return "";
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  };
 
   return (
     <div className="bg-[#FFFFFF]">
@@ -34,38 +27,7 @@ const NavBar = () => {
             </a>
           </div>
           <ul className="items-center hidden space-x-8 lg:flex">
-            {!currentAccount ? (
-              <li>
-                <button
-                  onClick={() => connectWallet()}
-                  className={`inline-flex items-center justify-center py-2 px-4 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none background ${styles.btnShine}`}
-                  aria-label="Connect Wallet"
-                  title="Connect Wallet"
-                >
-                  Connect Wallet
-                </button>
-              </li>
-            ) : (
-              <>
-                <li>
-                  <span
-                    className={`inline-flex items-center justify-center py-2 px-4 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none background ${styles.btnShine}`}
-                  >
-                    {truncateAddress(currentAccount)}
-                  </span>
-                </li>
-                {/* <li>
-                  <button
-                    onClick={() => disconnectWallet()}
-                    className={`inline-flex items-center justify-center py-2 px-4 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-500 hover:bg-red-600 focus:shadow-outline focus:outline-none`}
-                    aria-label="Disconnect Wallet"
-                    title="Disconnect Wallet"
-                  >
-                    Disconnect
-                  </button>
-                </li> */}
-              </>
-            )}
+           <ConnectButton/>
           </ul>
 
           {/* ... (rest of the component remains the same) ... */}

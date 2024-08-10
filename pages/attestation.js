@@ -1,10 +1,10 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Hero, Card, PupUp } from "../Components";
+import Attestation from "../Components/Attestation"
 
 const index = () => {
   return (
     <>
-      <Hero />
+      <Attestation />
     </>
   );
 };
