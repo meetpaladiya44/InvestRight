@@ -13,6 +13,7 @@ import { ethers } from "ethers";
 const Hero = ({ titleData, createPrediction }) => {
   const { address: userAddress } = useAccount();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isTxCompleted, setIsTxCompleted] = useState(false);
   const router = useRouter();
   const [done, setDone] = useState(false);
   // const {
@@ -29,6 +30,10 @@ const Hero = ({ titleData, createPrediction }) => {
   //   useWaitForTransactionReceipt({
   //     hash,
   //   });
+
+  const handleWorldIDLogin = () => {
+    router.push("/login");
+  };
 
   const submitTx = async (proof) => {
     // Implement your transaction logic here
@@ -122,8 +127,10 @@ const Hero = ({ titleData, createPrediction }) => {
       );
 
       await tx.wait();
+      setIsTxCompleted(true);
       console.log("Prediction created successfully!");
     } catch (error) {
+      setIsTxCompleted(false);
       console.log("Error creating prediction:", error);
     }
   };
@@ -363,44 +370,81 @@ const Hero = ({ titleData, createPrediction }) => {
                         Make Prediction
                       </button>
                     ) : (
-                      <IDKitWidget
-                        app_id={process.env.NEXT_PUBLIC_APP_ID}
-                        action={process.env.NEXT_PUBLIC_ACTION}
-                        signal={account.address}
-                        onSuccess={submitTx}
-                        // handleVerify={handleVerify}
-                        autoClose
-                      >
-                        {({ open }) => (
-                          <button
-                            onClick={() => !done && open()}
-                            className={`w-full py-4 px-6 rounded-full text-white font-semibold text-lg transition-all ${
-                              !hash && !isPending
-                                ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
-                                : isPending
-                                ? "bg-yellow-500 hover:bg-yellow-600"
-                                : "bg-green-500 hover:bg-green-600"
-                            } ${
-                              done ? "opacity-50 cursor-not-allowed" : ""
-                            } transform hover:scale-105`}
-                            disabled={done}
-                          >
-                            {!hash &&
-                              (isPending
-                                ? "Pending, please check your wallet..."
-                                : "Login with WorldID")}
-                            {done && "Transaction Completed"}
-                          </button>
-                        )}
-                      </IDKitWidget>
+                      // <IDKitWidget
+                      //   app_id={process.env.NEXT_PUBLIC_APP_ID}
+                      //   action={process.env.NEXT_PUBLIC_ACTION}
+                      //   signal={account.address}
+                      //   onSuccess={submitTx}
+                      //   // handleVerify={handleVerify}
+                      //   autoClose
+                      // >
+                      //   {({ open }) => (
+                      //     <button
+                      //       onClick={() => !done && open()}
+                      //       className={`w-full py-4 px-6 rounded-full text-white font-semibold text-lg transition-all ${
+                      //         !hash && !isPending
+                      //           ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
+                      //           : isPending
+                      //           ? "bg-yellow-500 hover:bg-yellow-600"
+                      //           : "bg-green-500 hover:bg-green-600"
+                      //       } ${
+                      //         done ? "opacity-50 cursor-not-allowed" : ""
+                      //       } transform hover:scale-105`}
+                      //       disabled={done}
+                      //     >
+                      //       {!hash &&
+                      //         (isPending
+                      //           ? "Pending, please check your wallet..."
+                      //           : "Login with WorldID")}
+                      //       {done && "Transaction Completed"}
+                      //     </button>
+                      //   )}
+                      // </IDKitWidget>
+                      <></>
                     )} */}
+                    {isLoggedIn ? (
+                      <button
+                        type="submit"
+                        className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                      >
+                        Make Prediction
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleWorldIDLogin}
+                        type="submit"
+                        className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                      >
+                        <span>Login With WorldID</span>
+                      </button>
+                    )}
                     <button
                       type="submit"
-                      className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                      className={`${
+                        isTxCompleted
+                          ? "hidden"
+                          : "inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                      }`}
                       onClick={(e) => handleCreatePrediction(e)}
                     >
                       Make Prediction
                     </button>
+                    {isTxCompleted && (
+                      <div>
+                        <label
+                          htmlFor="url"
+                          className="inline-block mb-1 font-medium"
+                        >
+                          URL
+                        </label>
+                        <div
+                          id="url"
+                          style={{ padding: "8px 0", fontSize: "1rem" }}
+                        >
+                          {`https://frog-setup.vercel.app/${prediction.predictionId}`}
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <p className="text-xs text-gray-600 sm:text-sm">
                     Create your prediction on any crypto currency you want
