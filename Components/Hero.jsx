@@ -449,100 +449,62 @@ const Hero = ({ titleData, createPrediction }) => {
                   </p>
 
                   <div className="mt-4 mb-2 sm:mb-4">
-                    {!isLoggedIn ? (
+                    {!session && !loading ? (
+                      <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
+                        <span className="block text-gray-600 text-center mb-4">
+                          You are not signed in
+                        </span>
+                        <button
+                          className="w-full bg-green-500 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50"
+                          onClick={() => signIn("worldcoin")}
+                        >
+                          Sign in with World ID
+                        </button>
+                      </div>
+                    ) : session?.user ? (
                       <div>
                         <button
                           type="submit"
-                          className="mb-7 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                          className="mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
                           onClick={(e) => handleCreatePrediction(e)}
                         >
                           Make Prediction
                         </button>
-                        {session?.user && (
-                          <div className="bg-green-50 border-2 border-green-200 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
-                            <div className="flex items-center justify-center space-x-4 mb-4">
-                              {session.user.image && (
-                                <img
-                                  src={session.user.image}
-                                  alt="User Avatar"
-                                  className="w-16 h-16 rounded-full border-2 border-green-400 shadow-lg"
-                                />
-                              )}
-                              <div className="text-center">
-                                <small className="block text-gray-500">
-                                  Signed in as
-                                </small>
-                                <strong className="text-xl text-gray-800">
-                                  {session.user.email
-                                    ? `${session.user.email.slice(
-                                        0,
-                                        6
-                                      )}...${session.user.email.slice(-4)}`
-                                    : `${session.user.name.slice(
-                                        0,
-                                        6
-                                      )}...${session.user.name.slice(-4)}`}
-                                </strong>
-                              </div>
+                        <div className="bg-green-50 border-2 border-green-200 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
+                          <div className="flex items-center justify-center space-x-4 mb-4">
+                            {session.user.image && (
+                              <img
+                                src={session.user.image}
+                                alt="User Avatar"
+                                className="w-16 h-16 rounded-full border-2 border-green-400 shadow-lg"
+                              />
+                            )}
+                            <div className="text-center">
+                              <small className="block text-gray-500">
+                                Signed in as
+                              </small>
+                              <strong className="text-xl text-gray-800">
+                                {session.user.email
+                                  ? `${session.user.email.slice(
+                                      0,
+                                      6
+                                    )}...${session.user.email.slice(-4)}`
+                                  : `${session.user.name.slice(
+                                      0,
+                                      6
+                                    )}...${session.user.name.slice(-4)}`}
+                              </strong>
                             </div>
-                            <button
-                              className="w-full bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50"
-                              onClick={() => signOut()}
-                            >
-                              Sign out
-                            </button>
                           </div>
-                        )}
+                          <button
+                            className="w-full bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50"
+                            onClick={() => signOut()}
+                          >
+                            Sign out
+                          </button>
+                        </div>
                       </div>
-                    ) : (
-                      // <IDKitWidget
-                      //   app_id={process.env.NEXT_PUBLIC_APP_ID}
-                      //   action={process.env.NEXT_PUBLIC_ACTION}
-                      //   signal={account.address}
-                      //   onSuccess={submitTx}
-                      //   // handleVerify={handleVerify}
-                      //   autoClose
-                      // >
-                      //   {({ open }) => (
-                      //     <button
-                      //       onClick={() => !done && open()}
-                      //       className={`w-full py-4 px-6 rounded text-white font-semibold text-lg transition-all ${
-                      //         !hash && !isPending
-                      //           ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
-                      //           : isPending
-                      //           ? "bg-yellow-500 hover:bg-yellow-600"
-                      //           : "bg-green-500 hover:bg-green-600"
-                      //       } ${
-                      //         done ? "opacity-50 cursor-not-allowed" : ""
-                      //       } transform hover:scale-105`}
-                      //       disabled={done}
-                      //     >
-                      //       {!hash &&
-                      //         (isPending
-                      //           ? "Pending, please check your wallet..."
-                      //           : "Login with WorldID")}
-                      //       {done && "Transaction Completed"}
-                      //     </button>
-                      //   )}
-                      // </IDKitWidget>
-                      <div>
-                        {!session && !loading && (
-                          <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
-                            <span className="block text-gray-600 text-center mb-4">
-                              You are not signed in
-                            </span>
-                            <button
-                              className="w-full bg-green-500 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50"
-                              onClick={() =>
-                                signIn("worldcoin").then(setIsLoggedIn(true))
-                              }
-                            >
-                              Sign in with World ID
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                    ) : null}
                     {/* <button
                     type="submit"
                     className={`${
