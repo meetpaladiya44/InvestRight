@@ -5,13 +5,16 @@ import {
   useAccount,
   useWriteContract,
   useWaitForTransactionReceipt,
-  useContractWrite,
 } from "wagmi";
 import InvestRightABI from "../Context/InvestRightABI.json";
 import { ethers } from "ethers";
+import { signIn, signOut, useSession } from "next-auth/react";
+import axios from "axios";
 
 const Hero = ({ titleData, createPrediction }) => {
   const { address: userAddress } = useAccount();
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
   const account = useAccount();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
@@ -34,9 +37,14 @@ const Hero = ({ titleData, createPrediction }) => {
 
   const submitTx = async (proof) => {
     // Implement your transaction logic here
+
+    console.log("proofffffffffff", proof);
+
     setDone(true);
     setIsLoggedIn(true);
   };
+
+  console.log("userrrrrrrrrrrr", session?.user?.email ?? session?.user?.name);
 
   const [prediction, setPrediction] = useState({
     predictionId: ethers.BigNumber.from(
@@ -139,29 +147,34 @@ const Hero = ({ titleData, createPrediction }) => {
 
   return (
     <div className="relative">
-    <span className=""></span>
-    {/* <img
+      <span className=""></span>
+      {/* <img
       src="https://img.freepik.com/free-vector/gradient-stock-market-concept-with-statistics_23-2149157696.jpg?semt=ais_hybrid"
       className="absolute inset-0 object-cover w-full h-full"
       alt=""
     /> */}
-    <div className="relative bg-[#644DF6]">
-      <svg
-        className="absolute inset-x-0 bottom-0 text-white"
-        viewBox="0 0 1160 163"
-      >
-        <path
-          fill="currentColor"
-          d="M-164 13L-104 39.7C-44 66 76 120 196 141C316 162 436 152 556 119.7C676 88 796 34 916 13C1036 -8 1156 2 1216 7.7L1276 13V162.5H1216C1156 162.5 1036 162.5 916 162.5C796 162.5 676 162.5 556 162.5C436 162.5 316 162.5 196 162.5C76 162.5 -44 162.5 -104 162.5H-164V13Z"
-        />
-      </svg>
-      <div className="relative px-4 py-16 mx-auto overflow-hidden sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-10 lg:py-20">
-        <div className="flex flex-col items-center justify-center xl:flex-row">
-          <div className="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
-            <h3 className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none"  style={{ fontWeight: "700" }}>
-              Invest Right : <br className="hidden md:block" />
-            </h3>
-            <h2   className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg" style={{
+      <div className="relative bg-[#644DF6]">
+        <svg
+          className="absolute inset-x-0 bottom-0 text-white"
+          viewBox="0 0 1160 163"
+        >
+          <path
+            fill="currentColor"
+            d="M-164 13L-104 39.7C-44 66 76 120 196 141C316 162 436 152 556 119.7C676 88 796 34 916 13C1036 -8 1156 2 1216 7.7L1276 13V162.5H1216C1156 162.5 1036 162.5 916 162.5C796 162.5 676 162.5 556 162.5C436 162.5 316 162.5 196 162.5C76 162.5 -44 162.5 -104 162.5H-164V13Z"
+          />
+        </svg>
+        <div className="relative px-4 py-16 mx-auto overflow-hidden sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-10 lg:py-20">
+          <div className="flex flex-col items-center justify-center xl:flex-row">
+            <div className="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
+              <h3
+                className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none"
+                style={{ fontWeight: "700" }}
+              >
+                Invest Right : <br className="hidden md:block" />
+              </h3>
+              <h2
+                className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg"
+                style={{
                   fontSize: "2rem",
                   lineHeight: "37px",
                   fontWeight: "700",
@@ -384,7 +397,7 @@ const Hero = ({ titleData, createPrediction }) => {
                     the Pyth oracle.{" "}
                   </p>
                   <div className="mt-4 mb-2 sm:mb-4">
-                    {/* {isLoggedIn ? (
+                    {isLoggedIn ? (
                       <button
                         type="submit"
                         className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
@@ -393,44 +406,65 @@ const Hero = ({ titleData, createPrediction }) => {
                         Make Prediction
                       </button>
                     ) : (
-                      <IDKitWidget
-                        app_id={process.env.NEXT_PUBLIC_APP_ID}
-                        action={process.env.NEXT_PUBLIC_ACTION}
-                        signal={account.address}
-                        onSuccess={submitTx}
-                        // handleVerify={handleVerify}
-                        autoClose
-                      >
-                        {({ open }) => (
-                          <button
-                            onClick={() => !done && open()}
-                            className={`w-full py-4 px-6 rounded-full text-white font-semibold text-lg transition-all ${
-                              !hash && !isPending
-                                ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
-                                : isPending
-                                ? "bg-yellow-500 hover:bg-yellow-600"
-                                : "bg-green-500 hover:bg-green-600"
-                            } ${
-                              done ? "opacity-50 cursor-not-allowed" : ""
-                            } transform hover:scale-105`}
-                            disabled={done}
-                          >
-                            {!hash &&
-                              (isPending
-                                ? "Pending, please check your wallet..."
-                                : "Login with WorldID")}
-                            {done && "Transaction Completed"}
-                          </button>
+                      <div>
+                        {!session && !loading && (
+                          <div className="bg-indigo-600 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
+                            <span className="block text-indigo-100 text-center mb-4">
+                              You are not signed in
+                            </span>
+                            <button
+                              className="w-full bg-green-500 hover:bg-yellow-500 hover:text-black text-white font-semibold px-6 py-3 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50"
+                              onClick={() => signIn("worldcoin")}
+                            >
+                              Sign in with World ID
+                            </button>
+                          </div>
                         )}
-                      </IDKitWidget>
-                    )} */}
-                    <button
+
+                        {session?.user && (
+                          <div className="bg-indigo-100 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
+                            <div className="flex items-center justify-center space-x-4 mb-4">
+                              {session.user.image && (
+                                <img
+                                  src={session.user.image}
+                                  alt="User Avatar"
+                                  className="w-16 h-16 rounded-full border-2 border-indigo-400 shadow-lg"
+                                />
+                              )}
+                              <div className="text-center">
+                                <small className="block text-indigo-500">
+                                  Signed in as
+                                </small>
+                                <strong className="text-xl text-indigo-800">
+                                  {session.user.email
+                                    ? `${session.user.email.slice(
+                                        0,
+                                        6
+                                      )}...${session.user.email.slice(-4)}`
+                                    : `${session.user.name.slice(
+                                        0,
+                                        6
+                                      )}...${session.user.name.slice(-4)}`}
+                                </strong>
+                              </div>
+                            </div>
+                            <button
+                              className="w-full bg-yellow-400 hover:bg-yellow-500 text-indigo-900 px-6 py-2 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50"
+                              onClick={() => signOut()}
+                            >
+                              Sign out
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {/* <button
                       type="submit"
                       className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none  transition duration-200 rounded shadow-md newColor"
                       onClick={(e) => handleCreatePrediction(e)}
                     >
                       Make Prediction
-                    </button>
+                    </button> */}
                   </div>
                   <p className="text-xs text-gray-600 sm:text-sm">
                     Create your prediction on any crypto currency you want

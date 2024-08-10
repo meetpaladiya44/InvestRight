@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-
+import { SessionProvider } from "next-auth/react"
 import Head from "next/head";
 import { NavBar, Footer } from "../Components";
 import { InvestRightProvider } from "../Context/InvestRight.js";
@@ -10,7 +10,7 @@ import { ConnectKitProvider } from "connectkit";
 
 const queryClient = new QueryClient();
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <div>
       <Head>
@@ -19,13 +19,15 @@ export default function App({ Component, pageProps }) {
       </Head>
       <InvestRightProvider>
         <WagmiProvider config={config}>
-          <QueryClientProvider client={queryClient}>
-            <ConnectKitProvider>
-              <NavBar />
-              <Component {...pageProps} />
-              <Footer />
-            </ConnectKitProvider>
-          </QueryClientProvider>
+          <SessionProvider session={session}>
+            <QueryClientProvider client={queryClient}>
+              <ConnectKitProvider>
+                <NavBar />
+                <Component {...pageProps} />
+                <Footer />
+              </ConnectKitProvider>
+            </QueryClientProvider>
+          </SessionProvider>
         </WagmiProvider>
       </InvestRightProvider>
     </div>
