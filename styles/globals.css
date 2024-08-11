@@ -14,14 +14,16 @@
     text-shadow: 0 0 20px rgba(255, 255, 255, 1);
   }
 }
-@keyframes typing {
-  0% { width: 0 }
-  50%, 100% { width: 100% }
-}
-
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: #fff }
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 .background {
   background-color: #644df6;

@@ -20,7 +20,7 @@ const Hero = ({ titleData, createPrediction }) => {
   const loading = status === "loading";
   const account = useAccount();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isTxCompleted, setIsTxCompleted] = useState(false);
+  const [isTxCompleted, setIsTxCompleted] = useState(true);
   const router = useRouter();
   const [done, setDone] = useState(false);
   const baseUrl = "https://frog-setup.vercel.app/api/";
@@ -609,7 +609,7 @@ const Hero = ({ titleData, createPrediction }) => {
                             className="text-[#644df4] hover:text-[#4e3ac2] focus:outline-none transition-colors duration-200"
                             style={{
                               marginLeft: "10px",
-                              animation: "pulse 1s infinite",
+                              animation: "pulse 1.5s infinite",
                               
                             }}
                             title={copied ? "Copied!" : "Copy to clipboard"}
