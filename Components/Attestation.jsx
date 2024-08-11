@@ -227,7 +227,7 @@ const Attestation = ({ titleData, createPrediction }) => {
                   style={{
                     fontSize: "2.5rem",
                     color: "#fff",
-                    // animation: "pulseGlow 5s infinite",
+                    animation: "pulseGlow 5s infinite",
                   }}
               
                 >
