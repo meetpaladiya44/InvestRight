@@ -254,7 +254,7 @@ const Attestation = ({ titleData, createPrediction }) => {
               <div className="w-full  xl:w-5/12" style={{ maxWidth: "42rem" }}>
                 <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
                   <h3
-                    className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl"
+                    className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl text-2xl font-bold mb-6 text-gray-800 border-b-2 border-[#644df4] pb-2"
                     style={{ color: "#644df6", fontWeight: "700" }}
                   >
                     Challenge The Prediction
@@ -274,7 +274,8 @@ const Attestation = ({ titleData, createPrediction }) => {
                         id="prediction-id"
                         name="prediction-id"
                         style={{ padding: "10px",boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
-                          transition: "border-color 0.3s ease", }}
+                          transition: "border-color 0.3s ease", background:"#d3d3d373",
+                            }}
                       >
                         1873425678982345
                       </div>
@@ -293,7 +294,8 @@ const Attestation = ({ titleData, createPrediction }) => {
                         id="prediction-id"
                         name="prediction-id"
                         style={{ padding: "10px",boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
-                          transition: "border-color 0.3s ease", }}
+                          transition: "border-color 0.3s ease", background:"#d3d3d373",
+                        }}
                       >
                         {session
                           ? session?.user?.email
@@ -319,13 +321,13 @@ const Attestation = ({ titleData, createPrediction }) => {
                       <div className="relative">
                         <select
                           required
-                          className="flex-grow w-full h-12 px-4 pr-10 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                          className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
                           id="coinname"
                           name="coinname"
                           onChange={handleStakeTypeChange}
                           value={selectedAttestationType}
                           style={{
-
+                            // background:"#d3d3d373",
                             boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
                             transition: "border-color 0.3s ease",
                           }}
@@ -348,7 +350,7 @@ const Attestation = ({ titleData, createPrediction }) => {
                         placeholder="Stack Amount"
                         required
                         type="text"
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
                         id="stackamount"
                         name="stackamount"
                         onChange={(e) =>
@@ -358,7 +360,7 @@ const Attestation = ({ titleData, createPrediction }) => {
                           })
                         }
                         style={{
-
+                          // background:"#d3d3d373",
                           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
                           transition: "border-color 0.3s ease",
                         }}

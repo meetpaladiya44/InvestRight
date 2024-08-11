@@ -218,6 +218,7 @@ const Hero = ({ titleData, createPrediction }) => {
       console.log("Error creating prediction:", error);
     }
   };
+  
 
   return (
     <div className="relative">
@@ -267,7 +268,7 @@ const Hero = ({ titleData, createPrediction }) => {
               <div className="w-full  xl:w-5/12" style={{ maxWidth: "42rem", boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)", }}>
                 <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
                   <h3
-                    className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl"
+                    className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl text-2xl font-bold mb-6 text-gray-800 border-b-2 border-[#644df4] pb-2"
                     style={{ color: "#644df6", fontWeight: "700" }}
                   >
                     Predict
@@ -283,7 +284,7 @@ const Hero = ({ titleData, createPrediction }) => {
                       <div className="relative">
                         <select
                          style={{
-                          
+                         
                           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
                           transition: "border-color 0.3s ease",
                         }}
@@ -299,7 +300,7 @@ const Hero = ({ titleData, createPrediction }) => {
                           }}
                           value={prediction.pythPriceId}
                           required
-                          className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                          className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
                           id="coinname"
                           name="coinname"
                         >
@@ -331,10 +332,11 @@ const Hero = ({ titleData, createPrediction }) => {
                         placeholder="reasoning"
                         required
                         type="text"
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
                         id="reason"
                         name="reason"
                         style={{
+                          
 
                           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
                           transition: "border-color 0.3s ease",
@@ -380,11 +382,11 @@ const Hero = ({ titleData, createPrediction }) => {
                         placeholder="target price"
                         required
                         type="text"
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
                         id="predictionPrice"
                         name="predictionPrice"
                         style={{
-
+                          // background:"#d3d3d373",
                           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
                           transition: "border-color 0.3s ease",
                         }}
@@ -407,11 +409,11 @@ const Hero = ({ titleData, createPrediction }) => {
                         placeholder="stake amount"
                         required
                         type="text"
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
                         id="stakeAmount"
                         name="stakeAmount"
                         style={{
-
+                          // background:"#d3d3d373",
                           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
                           transition: "border-color 0.3s ease",
                         }}
@@ -434,11 +436,12 @@ const Hero = ({ titleData, createPrediction }) => {
                         placeholder="view amount"
                         required
                         type="text"
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
                         id="viewPrice"
                         name="viewPrice"
                         style={{
-
+                          // background:"#d3d3d373",
+                        
                           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
                           transition: "border-color 0.3s ease",
                         }}
@@ -463,11 +466,11 @@ const Hero = ({ titleData, createPrediction }) => {
                         placeholder="target date"
                         required
                         type="date"
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
                         id="deadline"
                         name="deadline"
                         style={{
-
+                          // background:"#d3d3d373",
                           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
                           transition: "border-color 0.3s ease",
                         }}
