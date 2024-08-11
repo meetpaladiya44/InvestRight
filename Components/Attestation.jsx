@@ -33,7 +33,7 @@ const Attestation = ({ titleData, createPrediction }) => {
   console.log("sessionnnnnnnnnn", session, status);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isTxCompleted, setIsTxCompleted] = useState(true);
+  const [isTxCompleted, setIsTxCompleted] = useState(false);
   const [done, setDone] = useState(false);
 
   const [prediction, setPrediction] = useState({
@@ -227,7 +227,7 @@ const Attestation = ({ titleData, createPrediction }) => {
                   style={{
                     fontSize: "2.5rem",
                     color: "#fff",
-                    animation: "pulseGlow 5s infinite",
+                    // animation: "pulseGlow 5s infinite",
                   }}
               
                 >
@@ -238,8 +238,8 @@ const Attestation = ({ titleData, createPrediction }) => {
                   style={{
                     fontSize: "1.5rem",
                     color: "#fff",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
+                    // overflow: "hidden",
+                    // whiteSpace: "nowrap",
                     animation: "typing 4s steps(40, end) 4s infinite",
                   }}
                 >

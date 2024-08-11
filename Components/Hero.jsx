@@ -253,9 +253,7 @@ const Hero = ({ titleData, createPrediction }) => {
                   style={{
                     fontSize: "1.5rem",
                     color: "#fff",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    animation: "typing 4s steps(40, end) 4s infinite",
+                    
                   }}
                 >
                   Predict the price of different crypto currencies...
