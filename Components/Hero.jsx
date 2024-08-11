@@ -521,7 +521,7 @@ const Hero = ({ titleData, createPrediction }) => {
                         <label
                           htmlFor="url"
                           className="inline-block mb-1 font-medium py-4"
-                          style="font-size: 22px;"
+                          style={{ fontSize: '22px' }}
                         >
                           Link for Farcaster
                         </label>
