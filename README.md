@@ -35,9 +35,9 @@ This repository includes the main farcaster frames creation code using Minimal &
 
 # 👨🏻‍💻 Tech Stack
 
-Client: NextJS, HTML, CSS, JS, TS, TailwindCSS
+Frontend: NextJS, HTML, CSS, JS, TS, TailwindCSS
 
-Server: Solidity
+Backend: Solidity
 
 # 💻 Getting Started
 
