@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next-nprogress-bar";
 import { IDKitWidget } from "@worldcoin/idkit";
-import { FaChevronDown } from "react-icons/fa";
+import { FaChevronDown, FaLock } from "react-icons/fa";
 import {
   useAccount,
   useWalletClient,
@@ -336,7 +336,7 @@ const Attestation = ({ titleData, createPrediction }) => {
                           <option value="positive">Positive Stake</option>
                           <option value="negative">Negative Stake</option>
                         </select>
-                        <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+                        <FaChevronDown style={{color:"#644df4"}}className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
                       </div>
                     </div>
                     <div className="mb-1 sm:mb-2">
@@ -346,6 +346,7 @@ const Attestation = ({ titleData, createPrediction }) => {
                       >
                         Stack Amount
                       </label>
+                      <div style={{position:"relative"}}>
                       <input
                         placeholder="Stack Amount"
                         required
@@ -365,6 +366,11 @@ const Attestation = ({ titleData, createPrediction }) => {
                           transition: "border-color 0.3s ease",
                         }}
                       />
+                      <FaLock
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                          style={{ fontSize: "20px", color: "#644df4" }} // Adjust size as needed
+                        />
+                        </div>
                     </div>
                   </form>
 
