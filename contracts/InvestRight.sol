@@ -4,7 +4,7 @@ pragma solidity ^0.8.9;
 import "@pythnetwork/pyth-sdk-solidity/IPyth.sol";
 import "@pythnetwork/pyth-sdk-solidity/PythStructs.sol";
 
-contract InvestRight {    
+contract InvestRight {
     IPyth public immutable pyth;
 
     struct Prediction {
@@ -48,6 +48,7 @@ contract InvestRight {
     mapping(uint256 => Prediction) public predictions;
     mapping(uint256 => mapping(address => uint256)) public positiveStakes;
     mapping(uint256 => mapping(address => uint256)) public negativeStakes;
+    mapping(uint256 => mapping(address => bool)) public hasPaidViewFee;
 
     constructor(address pythAddress) {
         pyth = IPyth(pythAddress);
@@ -80,6 +81,8 @@ contract InvestRight {
         prediction.positiveStakers.push(msg.sender); // Add owner as initial positive staker
 
         positiveStakes[predictionId][msg.sender] = msg.value;
+
+        hasPaidViewFee[predictionId][msg.sender] = true;
 
         emit PredictionCreated(predictionId, msg.sender, _coin, msg.value);
         emit StakeAdded(predictionId, msg.sender, true, msg.value);
@@ -126,6 +129,15 @@ contract InvestRight {
         }
     }
 
+    // Check if the post-view fee has been paid for a specific address.
+    function isWhitelisted(uint256 _predictionId, address _user)
+        public
+        view
+        returns (bool)
+    {
+        return hasPaidViewFee[_predictionId][_user];
+    }
+
     //Pay fees for view post
     function viewerFees(uint256 _id)
         public
@@ -134,25 +146,29 @@ contract InvestRight {
     {
         Prediction storage prediction = predictions[_id];
 
-        // Revert if the caller is the owner
         require(
             msg.sender != prediction.owner,
             "Owner cannot view their own post"
         );
 
-        uint256 amount = prediction.viewAmount;
-        require(msg.value == amount, "Incorrect ETH amount to view post");
+        if (!isWhitelisted(_id, msg.sender)) {
+            uint256 amount = prediction.viewAmount;
+            require(msg.value == amount, "Incorrect ETH amount to view post");
 
-        prediction.totalFeesCollected += amount;
+            prediction.totalFeesCollected += amount;
 
-        (bool sent, ) = payable(prediction.owner).call{value: amount}("");
-        require(sent, "Failed to send fee to prediction owner");
+            (bool sent, ) = payable(prediction.owner).call{value: amount}("");
+            require(sent, "Failed to send fee to prediction owner");
 
-        // Call the modified getPredictions function to return the data for the specific prediction ID
-        Prediction memory predictionData = getPredictions(_id);
+            hasPaidViewFee[_id][msg.sender] = true;
+        } else {
+            require(
+                msg.value == 0,
+                "You have already paid the view fee for this prediction"
+            );
+        }
 
-        // Return the prediction data to the user
-        return predictionData;
+        return getPredictions(_id);
     }
 
     //Get particular prediction using ID
