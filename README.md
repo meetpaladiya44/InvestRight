@@ -24,17 +24,14 @@ This repository includes the main farcaster frames creation code using Minimal &
 
 # 🌱 Key Features
 
-    1. Identity Verification with World ID
-    2. Social Casting with Farcaster
-    3. Engagement Through Frames
-    4. Peer-Reviewed Attestations with EAS
-    5. Staking and Rewards
-    6. Public Access with Entry Fees
-    7. Reputation System
-    8. Pyth Price Feed
-
-# 🔮 Demo of our platform
-Welcome to the demo section of InvestRight! Here, you can explore some of the key features of our platform through screenshots.
+1. Identity Verification with World ID
+2. Social Casting with Farcaster
+3. Engagement Through Frames
+4. Peer-Reviewed Attestations with EAS
+5. Staking and Rewards
+6. Public Access with Entry Fees
+7. Reputation System
+8. Pyth Price Feed
 
 # 👨🏻‍💻 Tech Stack
 
@@ -48,14 +45,14 @@ Become an InvestRight user effortlessly! Simply  [🔗click here](https://invest
 
 # ❓FAQs
 
-    1. How does the platform ensure the credibility of users making predictions?
+1. How does the platform ensure the credibility of users making predictions?
 Answer: The platform uses Worldcoin's World ID for identity verification, ensuring that only verified and genuine users can participate in making predictions and attestations. This reduces the risk of fraud and enhances trust among participants.
 
-    2. What information is visible about a prediction before I pay to view it?
+2. What information is visible about a prediction before I pay to view it?
 Answer: Before making a payment, only the metadata about the prediction is visible, including the predictor's name, staked amount, prediction accuracy, number of predictions, usefulness index, and attestation counts (positive, negative, not useful). The detailed reasoning behind the prediction is only accessible after payment.
 
-    3. What happens if my prediction is incorrect?
+3. What happens if my prediction is incorrect?
 Answer: If your prediction is incorrect, the smart contract may penalize you by forfeiting some or all of your staked tokens. This penalty is redistributed according to the platform's rules, encouraging honest and accurate predictions.
 
-    4. How does the platform validate the accuracy of predictions?
+4. How does the platform validate the accuracy of predictions?
 Answer: The platform uses real-time crypto price feeds from the Pyth Network to validate the accuracy of predictions on the predetermined due date. The system compares the predicted prices with actual market data to determine the outcome and distribute rewards or penalties accordingly.
