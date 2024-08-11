@@ -30,6 +30,8 @@ const Attestation = ({ titleData, createPrediction }) => {
   const router = useRouter();
   const [isPositive, setIsPositive] = useState(false);
 
+  console.log("sessionnnnnnnnnn", session, status);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isTxCompleted, setIsTxCompleted] = useState(false);
   const [done, setDone] = useState(false);
@@ -284,14 +286,20 @@ const Attestation = ({ titleData, createPrediction }) => {
                         name="prediction-id"
                         style={{ padding: "10px" }}
                       >
-                        {session?.user?.email
-                          ? `${session?.user?.email?.slice(
-                              0,
-                              6
-                            )}...${session?.user?.email?.slice(-4)}`
-                          : `SignIn with World ID`}
+                        {session
+                          ? session?.user?.email
+                            ? `${session.user.email.slice(
+                                0,
+                                6
+                              )}...${session.user.email.slice(-4)}`
+                            : `${session.user.name.slice(
+                                0,
+                                6
+                              )}...${session.user.name.slice(-4)}`
+                          : "SignIn with World ID"}
                       </div>
                     </div>
+
                     <div className="mb-1 sm:mb-2">
                       <label
                         htmlFor="coin"
