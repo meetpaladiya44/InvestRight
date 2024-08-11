@@ -20,7 +20,7 @@ const Hero = ({ titleData, createPrediction }) => {
   const loading = status === "loading";
   const account = useAccount();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isTxCompleted, setIsTxCompleted] = useState(true);
+  const [isTxCompleted, setIsTxCompleted] = useState(false);
   const router = useRouter();
   const [done, setDone] = useState(false);
   const baseUrl = "https://frog-setup.vercel.app/api/";
