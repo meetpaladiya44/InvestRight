@@ -225,8 +225,6 @@ const Hero = ({ titleData, createPrediction }) => {
 
   return (
     <div className="relative">
-      <span className=""></span>
-
       <div className="relative bg-[#644DF6]">
         <svg
           className="absolute inset-x-0 bottom-[-2px] text-white"
@@ -278,7 +276,7 @@ const Hero = ({ titleData, createPrediction }) => {
               >
                 <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
                   <h3
-                    className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl text-2xl font-bold mb-6 text-gray-800 border-b-2 border-[#644df4] pb-2"
+                    className="sm:text-center sm:mb-6 sm:text-2xl text-2xl font-bold mb-6 text-gray-800 border-b-2 border-[#644df4] pb-2"
                     style={{ color: "#644df6", fontWeight: "700" }}
                   >
                     Predict
@@ -564,7 +562,7 @@ const Hero = ({ titleData, createPrediction }) => {
                       <div>
                         <button
                           type="submit"
-                          className=" transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                          className="ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
                           onClick={(e) => handleCreatePrediction(e)}
                         >
                           Make Prediction

@@ -20,7 +20,7 @@ import { ethers } from "ethers";
 // const SCHEMA_UID_NOT_USEFUL =
 ("0x74e3a8fc864bea385b06b01eae46dc3252332350946fd1a454464b40e08c549f");
 
-const Attestation = ({ titleData, createPrediction }) => {
+const Attestation = ({ id }) => {
   const { address: userAddress, isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
   const { openConnectModal } = useConnectModal();
@@ -254,7 +254,7 @@ const Attestation = ({ titleData, createPrediction }) => {
               <div className="w-full  xl:w-5/12" style={{ maxWidth: "42rem" }}>
                 <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
                   <h3
-                    className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl text-2xl font-bold mb-6 text-gray-800 border-b-2 border-[#644df4] pb-2"
+                    className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl text-gray-800 border-b-2 border-[#644df4] pb-2"
                     style={{ color: "#644df6", fontWeight: "700" }}
                   >
                     Challenge The Prediction
@@ -277,7 +277,7 @@ const Attestation = ({ titleData, createPrediction }) => {
                           transition: "border-color 0.3s ease", background:"#d3d3d373",
                             }}
                       >
-                        1873425678982345
+                        {id}
                       </div>
                     </div>
                     <div className="mb-1 sm:mb-2">
@@ -393,7 +393,7 @@ const Attestation = ({ titleData, createPrediction }) => {
                           {selectedAttestationType === "positive" && (
                             <button
                               onClick={(e) => handleStake(e)}
-                              className=" transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                              className="ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
                               >
                               Positive Stake
                             </button>
@@ -401,7 +401,7 @@ const Attestation = ({ titleData, createPrediction }) => {
                           {selectedAttestationType === "negative" && (
                             <button
                               onClick={(e) => handleStake(e)}
-                              className=" transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                              className="ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
                               >
                               Negative Stake
                             </button>
