@@ -208,7 +208,8 @@ const Attestation = ({ id }) => {
       }
 
       // Use the selectedAttestationType to determine isPositive
-      const isPositive = selectedAttestationType === "positive";
+      const isPositive = true;
+      // const isPositive = selectedAttestationType === "positive";
 
       console.log("Sending transaction with:", {
         predictionId: predictionId.toString(),
