@@ -33,11 +33,31 @@ This repository includes the main farcaster frames creation code using Minimal &
 7. Reputation System
 8. Pyth Price Feed
 
+# 🔮 Demo of our platform
+Welcome to the demo section of InvestRight! Here, you can explore some of the key features of our platform through screenshots.
+
+1) UI of our site
+
+
+![image (7)](https://github.com/user-attachments/assets/b4d2f852-2301-41a2-8344-b231231f1a2a)
+
+![image (1)](https://github.com/user-attachments/assets/d875a8c8-7d29-499d-a2ca-ff929d877e47)
+
+![image (5)](https://github.com/user-attachments/assets/88b18b72-e94f-471b-9a3d-2cdd6aeac05c)
+
+2) Farcaster Frames
+
+![image (4)](https://github.com/user-attachments/assets/b9512979-5c9d-484c-94ae-8a79d0fa0038)
+
+![image (3)](https://github.com/user-attachments/assets/308aa40f-31d9-454e-87df-bf52439abc56)
+
+![image (2)](https://github.com/user-attachments/assets/7b518855-b0cd-43c7-8570-62f2380b36f0)
+
 # 👨🏻‍💻 Tech Stack
 
-Frontend: NextJS, HTML, CSS, JS, TS, TailwindCSS
+Client: NextJS, HTML, CSS, JS, TS, TailwindCSS
 
-Backend: Solidity
+Server: Solidity
 
 # 💻 Getting Started
 
