@@ -13,6 +13,7 @@ import { ConnectButton, useConnectModal } from "@rainbow-me/rainbowkit";
 import InvestRightABI from "../Context/InvestRightABI.json";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { ethers } from "ethers";
+import AttestationForm from "../attestation/components/AttestationForm"
 
 // const EAS_CONTRACT_ADDRESS = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e";
 // const SCHEMA_UID_FEEDBACK =
@@ -29,6 +30,9 @@ const Attestation = ({ id }) => {
   const loading = status === "loading";
   const router = useRouter();
   const [isPositive, setIsPositive] = useState(false);
+  const [stakeData, setStakeData] = useState(null);
+  const [showAttestationForm, setShowAttestationForm] = useState(false);
+
 
   console.log("iddddddddddddddddddd", typeof id?.toString());
   console.log("sessionnnnnnnnnn", session, status);
@@ -52,8 +56,10 @@ const Attestation = ({ id }) => {
     setPrediction((prev) => ({ ...prev, predictionId: id?.toString() }));
   }, [id]);
 
+  const [attestationFormData, setAttestationFormData] = useState(null);
+
   // Attestation states
-  const [showAttestationForm, setShowAttestationForm] = useState(false);
+  // const [showAttestationForm, setShowAttestationForm] = useState(false);
   const [attestationType, setAttestationType] = useState("");
   const [attestationData, setAttestationData] = useState({
     id: "",
@@ -217,11 +223,26 @@ const Attestation = ({ id }) => {
       await tx.wait();
       setIsTxCompleted(true);
       console.log("Stake added successfully!");
+
+      setStakeData({
+        predictionID: prediction.predictionId,
+        worldID: session?.user?.id || "", // Assuming WorldID is stored in the session
+        yourView: isPositive ? "Positive" : "Negative",
+        stakeAmount: prediction.stakeAmount,
+      });
+
+      setShowAttestationForm(false);
     } catch (error) {
       setIsTxCompleted(false);
       console.error("Error adding stake:", error);
     }
   };
+
+  const handleAttestationComplete = () => {
+    setShowAttestationForm(false);
+    // You can add any additional logic here after attestation is complete
+  };
+
   const handleAttestationSubmit = (e) => {
     e.preventDefault();
     createAttestation();
@@ -339,13 +360,13 @@ const Attestation = ({ id }) => {
                         {session
                           ? session?.user?.email
                             ? `${session.user.email.slice(
-                                0,
-                                6
-                              )}...${session.user.email.slice(-4)}`
+                              0,
+                              6
+                            )}...${session.user.email.slice(-4)}`
                             : `${session.user.name.slice(
-                                0,
-                                6
-                              )}...${session.user.name.slice(-4)}`
+                              0,
+                              6
+                            )}...${session.user.name.slice(-4)}`
                           : "SignIn with World ID"}
                       </div>
                     </div>
@@ -465,13 +486,13 @@ const Attestation = ({ id }) => {
                               <strong className="text-xl text-gray-800">
                                 {session.user.email
                                   ? `${session.user.email.slice(
-                                      0,
-                                      6
-                                    )}...${session.user.email.slice(-4)}`
+                                    0,
+                                    6
+                                  )}...${session.user.email.slice(-4)}`
                                   : `${session.user.name.slice(
-                                      0,
-                                      6
-                                    )}...${session.user.name.slice(-4)}`}
+                                    0,
+                                    6
+                                  )}...${session.user.name.slice(-4)}`}
                               </strong>
                             </div>
                           </div>
@@ -485,10 +506,11 @@ const Attestation = ({ id }) => {
                       </>
                     ) : null}
                   </div>
-                  {attestationResult && (
-                    <div className="mt-4 p-4 bg-green-100 text-green-700 rounded-md">
-                      {attestationResult}
-                    </div>
+                  {showAttestationForm && (
+                    <AttestationForm
+                      initialData={stakeData}
+                      onAttestationComplete={handleAttestationComplete}
+                    />
                   )}
                 </div>
               </div>
