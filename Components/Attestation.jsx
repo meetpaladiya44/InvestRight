@@ -63,7 +63,7 @@ const Attestation = ({ titleData, createPrediction }) => {
     error,
     writeContractAsync,
   } = useWriteContract({
-    address: "0xD6f3d80FD0952C8Fd0764D7011d7475DF555cA42",
+    address: "0x7ACC7E73967300a20f4f5Ba92fF9CB548b47Ea30",
     abi: InvestRightABI,
     functionName: "createPrediction",
   });
@@ -168,7 +168,7 @@ const Attestation = ({ titleData, createPrediction }) => {
       const signer = provider.getSigner();
 
       const contract = new ethers.Contract(
-        "0x384d7cE3FcD8502234446d9F080A97Af432382FC", // Replace with your contract address
+        "0x7ACC7E73967300a20f4f5Ba92fF9CB548b47Ea30", // Replace with your contract address
         InvestRightABI,
         signer
       );

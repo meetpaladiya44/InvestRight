@@ -32,7 +32,7 @@ const Hero = ({ titleData, createPrediction }) => {
     error,
     writeContractAsync,
   } = useWriteContract({
-    address: "0xD6f3d80FD0952C8Fd0764D7011d7475DF555cA42",
+    address: "0x7ACC7E73967300a20f4f5Ba92fF9CB548b47Ea30",
     abi: InvestRightABI,
     functionName: "createPrediction",
   });
