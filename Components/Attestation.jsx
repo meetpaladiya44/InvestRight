@@ -222,23 +222,30 @@ const Attestation = ({ titleData, createPrediction }) => {
           <div className="flex flex-col items-center justify-center xl:flex-row">
             <div className="flex flex-col items-center justify-center xl:flex-row">
               <div className="w-full  mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
-                <h3
+              <h3
                   className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none"
-                  style={{ fontWeight: "700" }}
+                  style={{
+                    fontSize: "2.5rem",
+                    color: "#fff",
+                    animation: "pulseGlow 5s infinite",
+                  }}
+              
                 >
                   Invest Right : <br className="hidden md:block" />
                 </h3>
                 <h2
                   className="font-semibold  mb-4 text-base text-gray-200 md:text-lg"
                   style={{
-                    fontSize: "2rem",
-                    lineHeight: "37px",
-                    fontWeight: "700",
+                    fontSize: "1.5rem",
+                    color: "#fff",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    animation: "typing 4s steps(40, end) 4s infinite",
                   }}
                 >
-                  Predict the price of different crypto currencies
+                  Predict the price of different crypto currencies...
                 </h2>
-                <p className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg">
+                <p className="font-normal max-w-xl mb-4 text-base text-gray-200 md:text-lg" style={{fontWeight:"300"}}>
                   Predict cryptocurrency prices and share your insights in
                   interactive frames. Users can also attest to predictions with
                   positive, negative, or not useful votes.
@@ -266,7 +273,8 @@ const Attestation = ({ titleData, createPrediction }) => {
                         className="flex-grow w-full px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                         id="prediction-id"
                         name="prediction-id"
-                        style={{ padding: "10px" }}
+                        style={{ padding: "10px",boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                          transition: "border-color 0.3s ease", }}
                       >
                         1873425678982345
                       </div>
@@ -284,7 +292,8 @@ const Attestation = ({ titleData, createPrediction }) => {
                         className="flex-grow w-full px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                         id="prediction-id"
                         name="prediction-id"
-                        style={{ padding: "10px" }}
+                        style={{ padding: "10px",boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                          transition: "border-color 0.3s ease", }}
                       >
                         {session
                           ? session?.user?.email
@@ -315,6 +324,11 @@ const Attestation = ({ titleData, createPrediction }) => {
                           name="coinname"
                           onChange={handleStakeTypeChange}
                           value={selectedAttestationType}
+                          style={{
+
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                            transition: "border-color 0.3s ease",
+                          }}
                         >
                           <option value="">Select View</option>
                           <option value="positive">Positive Stake</option>
@@ -343,6 +357,11 @@ const Attestation = ({ titleData, createPrediction }) => {
                             stakeAmount: e.target.value,
                           })
                         }
+                        style={{
+
+                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                          transition: "border-color 0.3s ease",
+                        }}
                       />
                     </div>
                   </form>
@@ -354,7 +373,7 @@ const Attestation = ({ titleData, createPrediction }) => {
                           You are not signed in
                         </span>
                         <button
-                          className="w-full bg-green-500 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50"
+                          className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600  text-white font-semibold px-6 py-3 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50"
                           onClick={() => signIn("worldcoin")}
                         >
                           Sign in with World ID
@@ -366,16 +385,16 @@ const Attestation = ({ titleData, createPrediction }) => {
                           {selectedAttestationType === "positive" && (
                             <button
                               onClick={(e) => handleStake(e)}
-                              className="transition-all transform hover:scale-105 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 w-full py-4 px-6 rounded text-white font-semibold text-lg"
-                            >
+                              className=" transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                              >
                               Positive Stake
                             </button>
                           )}
                           {selectedAttestationType === "negative" && (
                             <button
                               onClick={(e) => handleStake(e)}
-                              className="transition-all transform hover:scale-105 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 w-full py-4 px-6 rounded text-white font-semibold text-lg"
-                            >
+                              className=" transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                              >
                               Negative Stake
                             </button>
                           )}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next-nprogress-bar";
 import { IDKitWidget, ISuccessResult } from "@worldcoin/idkit";
+import { FaCopy, FaCheck } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
 import {
   useAccount,
@@ -14,6 +15,7 @@ import axios from "axios";
 
 const Hero = ({ titleData, createPrediction }) => {
   const { address: userAddress } = useAccount();
+  const [copied, setCopied] = useState(false);
   const { data: session, status } = useSession();
   const loading = status === "loading";
   const account = useAccount();
@@ -21,6 +23,8 @@ const Hero = ({ titleData, createPrediction }) => {
   const [isTxCompleted, setIsTxCompleted] = useState(false);
   const router = useRouter();
   const [done, setDone] = useState(false);
+  const baseUrl = "https://frog-setup.vercel.app/api/";
+  const [linkData, setLinkData] = useState({ fullLink: "", slicedLink: "" });
 
   const {
     data: hash,
@@ -128,6 +132,30 @@ const Hero = ({ titleData, createPrediction }) => {
     },
   ];
 
+  // Make sure this is inside the component body
+  const fullLink = `${baseUrl}${prediction.predictionId}`;
+
+  // Function to truncate the link
+  const truncateLink = (link) => {
+    if (link.length <= 30) return link;
+    return link.slice(0, 30) + "..." + link.slice(-7);
+  };
+
+  useEffect(() => {
+    const fullLink = `${baseUrl}${prediction.predictionId}`;
+    const slicedLink = truncateLink(fullLink);
+    setLinkData({ fullLink, slicedLink });
+  }, [prediction.predictionId]);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(fullLink); // Copy the full link
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
   const handleVerify = async (proof) => {
     try {
       const res = await fetch("/api/verify", {
@@ -211,27 +239,34 @@ const Hero = ({ titleData, createPrediction }) => {
               <div className="w-full  mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
                 <h3
                   className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none"
-                  style={{ fontWeight: "700" }}
+                  style={{
+                    fontSize: "2.5rem",
+                    color: "#fff",
+                    animation: "pulseGlow 5s infinite",
+                  }}
+              
                 >
                   Invest Right : <br className="hidden md:block" />
                 </h3>
                 <h2
                   className="font-semibold  mb-4 text-base text-gray-200 md:text-lg"
                   style={{
-                    fontSize: "2rem",
-                    lineHeight: "37px",
-                    fontWeight: "700",
+                    fontSize: "1.5rem",
+                    color: "#fff",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    animation: "typing 4s steps(40, end) 4s infinite",
                   }}
                 >
-                  Predict the price of different crypto currencies
+                  Predict the price of different crypto currencies...
                 </h2>
-                <p className="font-semibold max-w-xl mb-4 text-base text-gray-200 md:text-lg">
+                <p className="font-normal max-w-xl mb-4 text-base text-gray-200 md:text-lg" style={{fontWeight:"300"}}>
                   Predict cryptocurrency prices and share your insights in
                   interactive frames. Users can also attest to predictions with
                   positive, negative, or not useful votes.
                 </p>
               </div>
-              <div className="w-full  xl:w-5/12" style={{ maxWidth: "42rem" }}>
+              <div className="w-full  xl:w-5/12" style={{ maxWidth: "42rem", boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)", }}>
                 <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
                   <h3
                     className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl"
@@ -249,6 +284,11 @@ const Hero = ({ titleData, createPrediction }) => {
                       </label>
                       <div className="relative">
                         <select
+                         style={{
+                          
+                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                          transition: "border-color 0.3s ease",
+                        }}
                           onChange={(e) => {
                             const selectedCoin = pythPriceIdOptions.find(
                               (option) => option.value === e.target.value
@@ -296,6 +336,11 @@ const Hero = ({ titleData, createPrediction }) => {
                         className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                         id="reason"
                         name="reason"
+                        style={{
+
+                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                          transition: "border-color 0.3s ease",
+                        }}
                       />
                     </div>
                     {/* <div className="mb-1 sm:mb-2">
@@ -340,6 +385,11 @@ const Hero = ({ titleData, createPrediction }) => {
                         className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                         id="predictionPrice"
                         name="predictionPrice"
+                        style={{
+
+                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                          transition: "border-color 0.3s ease",
+                        }}
                       />
                     </div>
                     <div className="mb-1 sm:mb-2">
@@ -362,6 +412,11 @@ const Hero = ({ titleData, createPrediction }) => {
                         className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                         id="stakeAmount"
                         name="stakeAmount"
+                        style={{
+
+                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                          transition: "border-color 0.3s ease",
+                        }}
                       />
                     </div>
                     <div className="mb-1 sm:mb-2">
@@ -384,6 +439,11 @@ const Hero = ({ titleData, createPrediction }) => {
                         className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                         id="viewPrice"
                         name="viewPrice"
+                        style={{
+
+                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                          transition: "border-color 0.3s ease",
+                        }}
                       />
                     </div>
                     <div className="mb-1 sm:mb-2">
@@ -408,6 +468,11 @@ const Hero = ({ titleData, createPrediction }) => {
                         className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                         id="deadline"
                         name="deadline"
+                        style={{
+
+                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                          transition: "border-color 0.3s ease",
+                        }}
                       />
                     </div>
                     {/* <div className="mb-1 sm:mb-2">
@@ -447,7 +512,7 @@ const Hero = ({ titleData, createPrediction }) => {
                   <p className="text-xs text-gray-600 sm:text-sm">
                     Create your prediction on any crypto currency you want
                   </p>
-
+                 
                   <div className="mt-4 mb-2 sm:mb-4">
                     {!session && !loading ? (
                       <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
@@ -455,7 +520,7 @@ const Hero = ({ titleData, createPrediction }) => {
                           You are not signed in
                         </span>
                         <button
-                          className="w-full bg-green-500 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50"
+                          className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600  text-white font-semibold px-6 py-3 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50"
                           onClick={() => signIn("worldcoin")}
                         >
                           Sign in with World ID
@@ -463,9 +528,9 @@ const Hero = ({ titleData, createPrediction }) => {
                       </div>
                     ) : session?.user ? (
                       <div>
-                        <button
+                         <button
                           type="submit"
-                          className="mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                          className=" transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
                           onClick={(e) => handleCreatePrediction(e)}
                         >
                           Make Prediction
@@ -521,22 +586,39 @@ const Hero = ({ titleData, createPrediction }) => {
                         <label
                           htmlFor="url"
                           className="inline-block mb-1 font-medium py-4"
-                          style={{ fontSize: '22px' }}
+                          style={{ fontSize: "18px" }}
                         >
                           Link for Farcaster
                         </label>
                         <div
                           id="url"
                           className="p-4 border border-gray-300 rounded-md shadow-sm bg-gray-50 overflow-x-auto whitespace-nowrap"
+                          style={{ display: "flex", alignItems: "center" }}
                         >
                           <a
-                            href={`https://frog-setup.vercel.app/api/${prediction.predictionId}`}
+                            href={linkData.fullLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-600 hover:text-blue-800 break-all"
+                            style={{ color: "blue" }}
                           >
-                            {`https://frog-setup.vercel.app/api/${prediction.predictionId}`}
+                            {linkData.slicedLink}
                           </a>
+                          <button
+                            onClick={copyToClipboard}
+                            className="text-[#644df4] hover:text-[#4e3ac2] focus:outline-none transition-colors duration-200"
+                            style={{
+                              marginLeft: "10px",
+                              animation: "pulse 1s infinite",
+                              
+                            }}
+                            title={copied ? "Copied!" : "Copy to clipboard"}
+                          >
+                            {copied ? (
+                              <FaCheck className="h-6 w-6"  />
+                            ) : (
+                              <FaCopy className="h-6 w-6" />
+                            )}
+                          </button>
                         </div>
                       </div>
                     )}
