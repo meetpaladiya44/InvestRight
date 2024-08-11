@@ -48,7 +48,9 @@ const Hero = ({ titleData, createPrediction }) => {
   const [prediction, setPrediction] = useState({
     predictionId: ethers.BigNumber.from(
       ethers.utils.randomBytes(32)
-    ).toString(),
+    )
+      .mod(1e8)
+      .toString(),
     coin: "",
     reasoning: "",
     predictionPrice: "",
@@ -195,7 +197,7 @@ const Hero = ({ titleData, createPrediction }) => {
       const signer = provider.getSigner();
 
       const contract = new ethers.Contract(
-        "0x384d7cE3FcD8502234446d9F080A97Af432382FC", // Replace with your contract address
+        "0x7ACC7E73967300a20f4f5Ba92fF9CB548b47Ea30",
         InvestRightABI,
         signer
       );
@@ -419,30 +421,30 @@ const Hero = ({ titleData, createPrediction }) => {
                         Stake Amount
                       </label>
                       <div style={{ position: "relative" }}>
-                      <input
-                        onChange={(e) =>
-                          setPrediction({
-                            ...prediction,
-                            stakeAmount: e.target.value,
-                          })
-                        }
-                        placeholder="stake amount"
-                        required
-                        type="text"
-                        className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
-                        id="stakeAmount"
-                        name="stakeAmount"
-                        style={{
-                          // background:"#d3d3d373",
-                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
-                          transition: "border-color 0.3s ease",
-                        }}
-                      />
-                       <FaLock
+                        <input
+                          onChange={(e) =>
+                            setPrediction({
+                              ...prediction,
+                              stakeAmount: e.target.value,
+                            })
+                          }
+                          placeholder="stake amount"
+                          required
+                          type="text"
+                          className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
+                          id="stakeAmount"
+                          name="stakeAmount"
+                          style={{
+                            // background:"#d3d3d373",
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                            transition: "border-color 0.3s ease",
+                          }}
+                        />
+                        <FaLock
                           className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
                           style={{ fontSize: "20px", color: "#644df4" }} // Adjust size as needed
                         />
-                        </ div>
+                      </div>
                     </div>
                     <div className="mb-1 sm:mb-2">
                       <label
@@ -452,27 +454,27 @@ const Hero = ({ titleData, createPrediction }) => {
                         View Fees
                       </label>
                       <div style={{ position: "relative" }}>
-                      <input
-                        onChange={(e) =>
-                          setPrediction({
-                            ...prediction,
-                            viewAmount: e.target.value,
-                          })
-                        }
-                        placeholder="view amount"
-                        required
-                        type="text"
-                        className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
-                        id="viewPrice"
-                        name="viewPrice"
-                        style={{
-                          // background:"#d3d3d373",
+                        <input
+                          onChange={(e) =>
+                            setPrediction({
+                              ...prediction,
+                              viewAmount: e.target.value,
+                            })
+                          }
+                          placeholder="view amount"
+                          required
+                          type="text"
+                          className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
+                          id="viewPrice"
+                          name="viewPrice"
+                          style={{
+                            // background:"#d3d3d373",
 
-                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
-                          transition: "border-color 0.3s ease",
-                        }}
-                      />
-                      <FaDollarSign
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                            transition: "border-color 0.3s ease",
+                          }}
+                        />
+                        <FaDollarSign
                           className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
                           style={{ fontSize: "20px", color: "#644df4" }} // Adjust size as needed
                         />
