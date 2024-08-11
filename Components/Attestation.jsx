@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next-nprogress-bar";
 import { IDKitWidget } from "@worldcoin/idkit";
-import { FaChevronDown } from "react-icons/fa";
+import { FaChevronDown, FaLock } from "react-icons/fa";
 import {
   useAccount,
   useWalletClient,
@@ -20,7 +20,7 @@ import { ethers } from "ethers";
 // const SCHEMA_UID_NOT_USEFUL =
 ("0x74e3a8fc864bea385b06b01eae46dc3252332350946fd1a454464b40e08c549f");
 
-const Attestation = ({ titleData, createPrediction }) => {
+const Attestation = ({ id }) => {
   const { address: userAddress, isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
   const { openConnectModal } = useConnectModal();
@@ -30,6 +30,7 @@ const Attestation = ({ titleData, createPrediction }) => {
   const router = useRouter();
   const [isPositive, setIsPositive] = useState(false);
 
+  console.log("iddddddddddddddddddd", typeof id?.toString());
   console.log("sessionnnnnnnnnn", session, status);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,7 +38,7 @@ const Attestation = ({ titleData, createPrediction }) => {
   const [done, setDone] = useState(false);
 
   const [prediction, setPrediction] = useState({
-    predictionId: "1873425678982345",
+    predictionId: "",
     coin: "",
     reasoning: "",
     predictionPrice: "",
@@ -46,6 +47,10 @@ const Attestation = ({ titleData, createPrediction }) => {
     targetDate: "",
     pythPriceId: "",
   });
+
+  useEffect(() => {
+    setPrediction((prev) => ({ ...prev, predictionId: id?.toString() }));
+  }, [id]);
 
   // Attestation states
   const [showAttestationForm, setShowAttestationForm] = useState(false);
@@ -63,7 +68,7 @@ const Attestation = ({ titleData, createPrediction }) => {
     error,
     writeContractAsync,
   } = useWriteContract({
-    address: "0xD6f3d80FD0952C8Fd0764D7011d7475DF555cA42",
+    address: "0x7ACC7E73967300a20f4f5Ba92fF9CB548b47Ea30",
     abi: InvestRightABI,
     functionName: "createPrediction",
   });
@@ -168,17 +173,44 @@ const Attestation = ({ titleData, createPrediction }) => {
       const signer = provider.getSigner();
 
       const contract = new ethers.Contract(
-        "0x384d7cE3FcD8502234446d9F080A97Af432382FC", // Replace with your contract address
+        "0x7ACC7E73967300a20f4f5Ba92fF9CB548b47Ea30",
         InvestRightABI,
         signer
       );
 
-      const stakeAmount = ethers.utils.parseEther(prediction.stakeAmount);
+      // Ensure stakeAmount is a valid number
+      if (
+        !prediction.stakeAmount ||
+        isNaN(parseFloat(prediction.stakeAmount))
+      ) {
+        throw new Error("Invalid stake amount");
+      }
 
-      // Assuming you have a way to determine if the stake is positive or negative
-      const isPositive = true; // Replace with your logic to determine if the stake is positive or negative
+      // Convert the stake amount to wei
+      const stakeAmount = ethers.utils.parseEther(
+        prediction.stakeAmount.toString()
+      );
 
-      const tx = await contract.addStake(prediction.predictionId, isPositive, {
+      // Handle predictionId
+      let predictionId;
+      try {
+        predictionId = ethers.BigNumber.from(prediction.predictionId);
+        console.log("Prediction ID (BigNumber):", predictionId.toString());
+      } catch (error) {
+        console.error("Error converting prediction ID to BigNumber:", error);
+        throw new Error("Invalid prediction ID");
+      }
+
+      // Use the selectedAttestationType to determine isPositive
+      const isPositive = selectedAttestationType === "positive";
+
+      console.log("Sending transaction with:", {
+        predictionId: predictionId.toString(),
+        isPositive,
+        stakeAmount: stakeAmount.toString(),
+      });
+
+      const tx = await contract.addStake(predictionId, isPositive, {
         value: stakeAmount,
       });
 
@@ -187,10 +219,9 @@ const Attestation = ({ titleData, createPrediction }) => {
       console.log("Stake added successfully!");
     } catch (error) {
       setIsTxCompleted(false);
-      console.log("Error adding stake:", error);
+      console.error("Error adding stake:", error);
     }
   };
-
   const handleAttestationSubmit = (e) => {
     e.preventDefault();
     createAttestation();
@@ -222,14 +253,13 @@ const Attestation = ({ titleData, createPrediction }) => {
           <div className="flex flex-col items-center justify-center xl:flex-row">
             <div className="flex flex-col items-center justify-center xl:flex-row">
               <div className="w-full  mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
-              <h3
+                <h3
                   className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none"
                   style={{
                     fontSize: "2.5rem",
                     color: "#fff",
                     animation: "pulseGlow 5s infinite",
                   }}
-              
                 >
                   Invest Right : <br className="hidden md:block" />
                 </h3>
@@ -238,14 +268,17 @@ const Attestation = ({ titleData, createPrediction }) => {
                   style={{
                     fontSize: "1.5rem",
                     color: "#fff",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    animation: "typing 4s steps(40, end) 4s infinite",
+                    // overflow: "hidden",
+                    // whiteSpace: "nowrap",
+                    // animation: "typing 4s steps(40, end) 4s infinite",
                   }}
                 >
                   Predict the price of different crypto currencies...
                 </h2>
-                <p className="font-normal max-w-xl mb-4 text-base text-gray-200 md:text-lg" style={{fontWeight:"300"}}>
+                <p
+                  className="font-normal max-w-xl mb-4 text-base text-gray-200 md:text-lg"
+                  style={{ fontWeight: "300" }}
+                >
                   Predict cryptocurrency prices and share your insights in
                   interactive frames. Users can also attest to predictions with
                   positive, negative, or not useful votes.
@@ -254,7 +287,7 @@ const Attestation = ({ titleData, createPrediction }) => {
               <div className="w-full  xl:w-5/12" style={{ maxWidth: "42rem" }}>
                 <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
                   <h3
-                    className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl"
+                    className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl text-gray-800 border-b-2 border-[#644df4] pb-2"
                     style={{ color: "#644df6", fontWeight: "700" }}
                   >
                     Challenge The Prediction
@@ -273,10 +306,14 @@ const Attestation = ({ titleData, createPrediction }) => {
                         className="flex-grow w-full px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                         id="prediction-id"
                         name="prediction-id"
-                        style={{ padding: "10px",boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
-                          transition: "border-color 0.3s ease", }}
+                        style={{
+                          padding: "10px",
+                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                          transition: "border-color 0.3s ease",
+                          background: "#d3d3d373",
+                        }}
                       >
-                        1873425678982345
+                        {id}
                       </div>
                     </div>
                     <div className="mb-1 sm:mb-2">
@@ -292,8 +329,12 @@ const Attestation = ({ titleData, createPrediction }) => {
                         className="flex-grow w-full px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                         id="prediction-id"
                         name="prediction-id"
-                        style={{ padding: "10px",boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
-                          transition: "border-color 0.3s ease", }}
+                        style={{
+                          padding: "10px",
+                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                          transition: "border-color 0.3s ease",
+                          background: "#d3d3d373",
+                        }}
                       >
                         {session
                           ? session?.user?.email
@@ -319,13 +360,13 @@ const Attestation = ({ titleData, createPrediction }) => {
                       <div className="relative">
                         <select
                           required
-                          className="flex-grow w-full h-12 px-4 pr-10 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                          className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
                           id="coinname"
                           name="coinname"
                           onChange={handleStakeTypeChange}
                           value={selectedAttestationType}
                           style={{
-
+                            // background:"#d3d3d373",
                             boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
                             transition: "border-color 0.3s ease",
                           }}
@@ -334,7 +375,10 @@ const Attestation = ({ titleData, createPrediction }) => {
                           <option value="positive">Positive Stake</option>
                           <option value="negative">Negative Stake</option>
                         </select>
-                        <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+                        <FaChevronDown
+                          style={{ color: "#644df4" }}
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                        />
                       </div>
                     </div>
                     <div className="mb-1 sm:mb-2">
@@ -344,25 +388,31 @@ const Attestation = ({ titleData, createPrediction }) => {
                       >
                         Stack Amount
                       </label>
-                      <input
-                        placeholder="Stack Amount"
-                        required
-                        type="text"
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                        id="stackamount"
-                        name="stackamount"
-                        onChange={(e) =>
-                          setPrediction({
-                            ...prediction,
-                            stakeAmount: e.target.value,
-                          })
-                        }
-                        style={{
-
-                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
-                          transition: "border-color 0.3s ease",
-                        }}
-                      />
+                      <div style={{ position: "relative" }}>
+                        <input
+                          placeholder="Stack Amount"
+                          required
+                          type="text"
+                          className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
+                          id="stackamount"
+                          name="stackamount"
+                          onChange={(e) =>
+                            setPrediction({
+                              ...prediction,
+                              stakeAmount: e.target.value,
+                            })
+                          }
+                          style={{
+                            // background:"#d3d3d373",
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                            transition: "border-color 0.3s ease",
+                          }}
+                        />
+                        <FaLock
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                          style={{ fontSize: "20px", color: "#644df4" }} // Adjust size as needed
+                        />
+                      </div>
                     </div>
                   </form>
 
@@ -385,16 +435,16 @@ const Attestation = ({ titleData, createPrediction }) => {
                           {selectedAttestationType === "positive" && (
                             <button
                               onClick={(e) => handleStake(e)}
-                              className=" transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
-                              >
+                              className="ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                            >
                               Positive Stake
                             </button>
                           )}
                           {selectedAttestationType === "negative" && (
                             <button
                               onClick={(e) => handleStake(e)}
-                              className=" transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
-                              >
+                              className="ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                            >
                               Negative Stake
                             </button>
                           )}

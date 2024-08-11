@@ -3,6 +3,10 @@ import { useRouter } from "next-nprogress-bar";
 import { IDKitWidget, ISuccessResult } from "@worldcoin/idkit";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
+import { FaHandPointLeft } from "react-icons/fa";
+import { FaDollarSign, FaLock } from "react-icons/fa";
+
+import img1 from "../public/reason.png";
 import {
   useAccount,
   useWriteContract,
@@ -32,7 +36,7 @@ const Hero = ({ titleData, createPrediction }) => {
     error,
     writeContractAsync,
   } = useWriteContract({
-    address: "0xD6f3d80FD0952C8Fd0764D7011d7475DF555cA42",
+    address: "0x7ACC7E73967300a20f4f5Ba92fF9CB548b47Ea30",
     abi: InvestRightABI,
     functionName: "createPrediction",
   });
@@ -221,8 +225,6 @@ const Hero = ({ titleData, createPrediction }) => {
 
   return (
     <div className="relative">
-      <span className=""></span>
-
       <div className="relative bg-[#644DF6]">
         <svg
           className="absolute inset-x-0 bottom-[-2px] text-white"
@@ -244,7 +246,6 @@ const Hero = ({ titleData, createPrediction }) => {
                     color: "#fff",
                     animation: "pulseGlow 5s infinite",
                   }}
-              
                 >
                   Invest Right : <br className="hidden md:block" />
                 </h3>
@@ -253,23 +254,29 @@ const Hero = ({ titleData, createPrediction }) => {
                   style={{
                     fontSize: "1.5rem",
                     color: "#fff",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    animation: "typing 4s steps(40, end) 4s infinite",
                   }}
                 >
                   Predict the price of different crypto currencies...
                 </h2>
-                <p className="font-normal max-w-xl mb-4 text-base text-gray-200 md:text-lg" style={{fontWeight:"300"}}>
+                <p
+                  className="font-normal max-w-xl mb-4 text-base text-gray-200 md:text-lg"
+                  style={{ fontWeight: "300" }}
+                >
                   Predict cryptocurrency prices and share your insights in
                   interactive frames. Users can also attest to predictions with
                   positive, negative, or not useful votes.
                 </p>
               </div>
-              <div className="w-full  xl:w-5/12" style={{ maxWidth: "42rem", boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)", }}>
+              <div
+                className="w-full  xl:w-5/12"
+                style={{
+                  maxWidth: "42rem",
+                  boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
+                }}
+              >
                 <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
                   <h3
-                    className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl"
+                    className="sm:text-center sm:mb-6 sm:text-2xl text-2xl font-bold mb-6 text-gray-800 border-b-2 border-[#644df4] pb-2"
                     style={{ color: "#644df6", fontWeight: "700" }}
                   >
                     Predict
@@ -284,11 +291,10 @@ const Hero = ({ titleData, createPrediction }) => {
                       </label>
                       <div className="relative">
                         <select
-                         style={{
-                          
-                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
-                          transition: "border-color 0.3s ease",
-                        }}
+                          style={{
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                            transition: "border-color 0.3s ease",
+                          }}
                           onChange={(e) => {
                             const selectedCoin = pythPriceIdOptions.find(
                               (option) => option.value === e.target.value
@@ -301,7 +307,7 @@ const Hero = ({ titleData, createPrediction }) => {
                           }}
                           value={prediction.pythPriceId}
                           required
-                          className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                          className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
                           id="coinname"
                           name="coinname"
                         >
@@ -312,36 +318,43 @@ const Hero = ({ titleData, createPrediction }) => {
                             </option>
                           ))}
                         </select>
-                        <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+                        <FaChevronDown
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                          style={{ color: "#644df4" }}
+                        />
                       </div>
                     </div>
-
-                    <div className="mb-1 sm:mb-2">
+                    <div className="mb-1 sm:mb-2 relative">
                       <label
                         htmlFor="reason"
                         className="inline-block mb-1 font-medium"
                       >
                         Reason
                       </label>
-                      <input
-                        onChange={(e) =>
-                          setPrediction({
-                            ...prediction,
-                            reasoning: e.target.value,
-                          })
-                        }
-                        placeholder="reasoning"
-                        required
-                        type="text"
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                        id="reason"
-                        name="reason"
-                        style={{
-
-                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
-                          transition: "border-color 0.3s ease",
-                        }}
-                      />
+                      <div className="relative">
+                        <input
+                          onChange={(e) =>
+                            setPrediction({
+                              ...prediction,
+                              reasoning: e.target.value,
+                            })
+                          }
+                          placeholder="reasoning"
+                          required
+                          type="text"
+                          className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
+                          id="reason"
+                          name="reason"
+                          style={{
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                            transition: "border-color 0.3s ease",
+                          }}
+                        />
+                        <FaHandPointLeft
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                          style={{ fontSize: "20px", color: "#644df4" }} // Adjust size as needed
+                        />
+                      </div>
                     </div>
                     {/* <div className="mb-1 sm:mb-2">
                     <label
@@ -372,25 +385,31 @@ const Hero = ({ titleData, createPrediction }) => {
                       >
                         Prediction Price
                       </label>
-                      <input
-                        onChange={(e) =>
-                          setPrediction({
-                            ...prediction,
-                            predictionPrice: e.target.value,
-                          })
-                        }
-                        placeholder="target price"
-                        required
-                        type="text"
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                        id="predictionPrice"
-                        name="predictionPrice"
-                        style={{
-
-                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
-                          transition: "border-color 0.3s ease",
-                        }}
-                      />
+                      <div style={{ position: "relative" }}>
+                        <input
+                          onChange={(e) =>
+                            setPrediction({
+                              ...prediction,
+                              predictionPrice: e.target.value,
+                            })
+                          }
+                          placeholder="target price"
+                          required
+                          type="text"
+                          className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
+                          id="predictionPrice"
+                          name="predictionPrice"
+                          style={{
+                            // background:"#d3d3d373",
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+                            transition: "border-color 0.3s ease",
+                          }}
+                        />
+                        <FaDollarSign
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                          style={{ fontSize: "20px", color: "#644df4" }} // Adjust size as needed
+                        />
+                      </div>
                     </div>
                     <div className="mb-1 sm:mb-2">
                       <label
@@ -399,6 +418,7 @@ const Hero = ({ titleData, createPrediction }) => {
                       >
                         Stake Amount
                       </label>
+                      <div style={{ position: "relative" }}>
                       <input
                         onChange={(e) =>
                           setPrediction({
@@ -409,15 +429,20 @@ const Hero = ({ titleData, createPrediction }) => {
                         placeholder="stake amount"
                         required
                         type="text"
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
                         id="stakeAmount"
                         name="stakeAmount"
                         style={{
-
+                          // background:"#d3d3d373",
                           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
                           transition: "border-color 0.3s ease",
                         }}
                       />
+                       <FaLock
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                          style={{ fontSize: "20px", color: "#644df4" }} // Adjust size as needed
+                        />
+                        </ div>
                     </div>
                     <div className="mb-1 sm:mb-2">
                       <label
@@ -426,6 +451,7 @@ const Hero = ({ titleData, createPrediction }) => {
                       >
                         View Fees
                       </label>
+                      <div style={{ position: "relative" }}>
                       <input
                         onChange={(e) =>
                           setPrediction({
@@ -436,15 +462,21 @@ const Hero = ({ titleData, createPrediction }) => {
                         placeholder="view amount"
                         required
                         type="text"
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
                         id="viewPrice"
                         name="viewPrice"
                         style={{
+                          // background:"#d3d3d373",
 
                           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
                           transition: "border-color 0.3s ease",
                         }}
                       />
+                      <FaDollarSign
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                          style={{ fontSize: "20px", color: "#644df4" }} // Adjust size as needed
+                        />
+                      </div>
                     </div>
                     <div className="mb-1 sm:mb-2">
                       <label
@@ -465,11 +497,11 @@ const Hero = ({ titleData, createPrediction }) => {
                         placeholder="target date"
                         required
                         type="date"
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
                         id="deadline"
                         name="deadline"
                         style={{
-
+                          // background:"#d3d3d373",
                           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
                           transition: "border-color 0.3s ease",
                         }}
@@ -512,7 +544,7 @@ const Hero = ({ titleData, createPrediction }) => {
                   <p className="text-xs text-gray-600 sm:text-sm">
                     Create your prediction on any crypto currency you want
                   </p>
-                 
+
                   <div className="mt-4 mb-2 sm:mb-4">
                     {!session && !loading ? (
                       <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-6 transition-all duration-300 hover:shadow-md">
@@ -528,9 +560,9 @@ const Hero = ({ titleData, createPrediction }) => {
                       </div>
                     ) : session?.user ? (
                       <div>
-                         <button
+                        <button
                           type="submit"
-                          className=" transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
+                          className="ease-in-out transform hover:-translate-y-1 hover:shadow-lg mb-4 inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none newColor"
                           onClick={(e) => handleCreatePrediction(e)}
                         >
                           Make Prediction
@@ -608,13 +640,12 @@ const Hero = ({ titleData, createPrediction }) => {
                             className="text-[#644df4] hover:text-[#4e3ac2] focus:outline-none transition-colors duration-200"
                             style={{
                               marginLeft: "10px",
-                              animation: "pulse 1s infinite",
-                              
+                              animation: "pulse 1.5s infinite",
                             }}
                             title={copied ? "Copied!" : "Copy to clipboard"}
                           >
                             {copied ? (
-                              <FaCheck className="h-6 w-6"  />
+                              <FaCheck className="h-6 w-6" />
                             ) : (
                               <FaCopy className="h-6 w-6" />
                             )}

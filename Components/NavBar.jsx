@@ -19,7 +19,7 @@ const NavBar = () => {
               className="inline-flex items-center mr-8"
             >
               <Image src={Hero} alt="My Image" style={{ width: "25px" }} />
-              <div className="ml-2 text-[26px] font-bold tracking-wide logo">
+              <div className="ml-2 text-[26px] font-bold tracking-wide logo" style={{animation: "typing 4s steps(40, end) 4s infinite", overflow:"hidden", whiteSpace:"nowrap"}}>
                 InvestRight
               </div>
             </a>

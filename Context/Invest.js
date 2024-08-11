@@ -3,7 +3,7 @@ import Web3Modal from "web3modal";
 import InvestRight from "./InvestRight.json";
 
 //------------SEPOLIA NETWORK
-export const InvestRightAddress = "0x384d7cE3FcD8502234446d9F080A97Af432382FC";
+export const InvestRightAddress = "0x7ACC7E73967300a20f4f5Ba92fF9CB548b47Ea30";
 
 export const InvestRightABI = InvestRight.abi;
 
