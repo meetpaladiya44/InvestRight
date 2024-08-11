@@ -33,7 +33,7 @@ const Attestation = ({ titleData, createPrediction }) => {
   console.log("sessionnnnnnnnnn", session, status);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isTxCompleted, setIsTxCompleted] = useState(false);
+  const [isTxCompleted, setIsTxCompleted] = useState(true);
   const [done, setDone] = useState(false);
 
   const [prediction, setPrediction] = useState({
