@@ -395,7 +395,7 @@ const Hero = ({ titleData, createPrediction }) => {
                               predictionPrice: e.target.value,
                             })
                           }
-                          placeholder="target price"
+                          placeholder="Don't Enter Decimal value"
                           required
                           type="text"
                           className="flex-grow w-full h-12 px-4 mb-2 pr-10 transition duration-200 bg-[#d3d3d373] border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline hover:bg-transparent hover:border hover:border-solid hover:border-[#644df4]"
